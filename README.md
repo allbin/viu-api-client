@@ -1,7 +1,7 @@
 # viu-dms-api-client
 
 ### Example use
-```
+```typescript
 import { ViuDmsApiClient } from '@allbin/viu-dms-api-client';
 
 const client = ViuDmsApiClient({
