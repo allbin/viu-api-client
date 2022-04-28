@@ -17,4 +17,6 @@ const devices = await client.devices.list();
 
 Adjust path to api.d.ts to fit your own machine
 
-```cat ../viu-dms-api/src/types/api.d.ts | sed -e 's/^type/export type/g' > src/api.ts```
+```bash
+cat ../viu-dms-api/src/types/api.d.ts | sed -e 's/^type/export type/g' > src/api.ts
+```
