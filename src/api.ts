@@ -17,6 +17,33 @@ export type ApiDeviceCreationEvent = {
   type: 'creation';
 };
 
+export type ApiDeviceEventQueryParams = {
+  /**
+   * Comma-separated list of DeviceEvent IDs
+   */
+  id?: string;
+  /**
+   * Device for which to retrieve events
+   */
+  device_id?: string;
+  /**
+   * Organization for which to retrieve events
+   */
+  organization_id?: string;
+  /**
+   * Start of time range for which to retrieve events
+   */
+  date_start?: string;
+  /**
+   * End of time range for which to retrieve events
+   */
+  date_end?: string;
+  /**
+   * Offset into query results to start returning from. No more than 1000 items will be returned per request.
+   */
+  offset?: number;
+};
+
 export type ApiDeviceEventRequest = {
   user_id: string;
   device_id: string;
@@ -51,10 +78,6 @@ export type ApiDeviceLocation = {
   property_name?: string;
   placement: 'entrance' | 'laundry-room';
   coordinate: ApiCoordinate;
-};
-
-export type ApiDevicePatchLocationRequest = {
-  location?: ApiDeviceLocation;
 };
 
 export type ApiDeviceRebootEvent = {

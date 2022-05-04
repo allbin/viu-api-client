@@ -1,7 +1,7 @@
 import call from '../call';
 
 import type { ViuDmsClientOptions } from '../options';
-import type { ApiDevice, ApiDeviceRequest, ApiDeviceLocation } from '../api';
+import type { ApiDevice, ApiDeviceRequest } from '../api';
 
 interface DeviceOperations {
   list: () => Promise<ApiDevice[]>;
@@ -9,11 +9,6 @@ interface DeviceOperations {
   create: (device: ApiDeviceRequest) => Promise<ApiDevice>;
   update: (id: string, device: ApiDeviceRequest) => Promise<ApiDevice>;
   delete: (id: string) => Promise<ApiDevice>;
-
-  updateLocation: (
-    id: string,
-    location: ApiDeviceLocation,
-  ) => Promise<ApiDevice>;
 }
 
 export const deviceOperations = (
@@ -35,9 +30,4 @@ export const deviceOperations = (
     }),
   delete: async (id) =>
     await call<undefined, ApiDevice>('DELETE', `/devices/${id}`, { ...opts }),
-  updateLocation: async (id, location) =>
-    await call<ApiDeviceLocation, ApiDevice>('PATCH', `/devices/${id}`, {
-      ...opts,
-      body: location,
-    }),
 });
