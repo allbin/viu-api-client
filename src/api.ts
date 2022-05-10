@@ -19,7 +19,7 @@ export type ApiDeviceCreationEvent = {
 
 export type ApiDeviceEventQueryParams = {
   /**
-   * Comma-separated list of DeviceEvent IDs
+   * DeviceEvent ID
    */
   id?: string;
   /**
@@ -195,7 +195,10 @@ export type ApiParameterValidationError = {
   nestedErrors?: Array<ApiParameterValidationError>;
 };
 
-export type ApiPermission = 'something:something';
+export type ApiPermission =
+  | 'devices:create'
+  | 'devices:update'
+  | 'devices:delete';
 
 export type ApiValidationError = ApiError & {
   errors?: Array<ApiParameterValidationError>;
