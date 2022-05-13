@@ -9,6 +9,8 @@ interface DeviceOperations {
   create: (device: ApiDeviceRequest) => Promise<ApiDevice>;
   update: (id: string, device: ApiDeviceRequest) => Promise<ApiDevice>;
   delete: (id: string) => Promise<ApiDevice>;
+
+  screenshot: (id: string) => Promise<ArrayBuffer>;
 }
 
 export const deviceOperations = (
@@ -30,4 +32,10 @@ export const deviceOperations = (
     }),
   delete: async (id) =>
     await call<undefined, ApiDevice>('DELETE', `/devices/${id}`, { ...opts }),
+
+  screenshot: async (id) =>
+    await call<undefined, ArrayBuffer>('GET', `/devices/${id}/screenshot`, {
+      ...opts,
+      responseType: 'arraybuffer',
+    }),
 });

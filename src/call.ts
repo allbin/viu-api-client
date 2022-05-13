@@ -5,7 +5,11 @@ import { ViuDmsClientOptions } from './options';
 const call = async <R, T>(
   method: Method,
   url: string,
-  opts: ViuDmsClientOptions & { body?: R; form?: FormData },
+  opts: ViuDmsClientOptions & {
+    body?: R;
+    form?: FormData;
+    responseType?: AxiosRequestConfig['responseType'];
+  },
 ): Promise<T> => {
   const req: AxiosRequestConfig<R | FormData> = {
     method,
@@ -26,6 +30,10 @@ const call = async <R, T>(
     ...(opts.body ? { 'Content-Type': 'application/json' } : {}),
     ...auth,
   };
+
+  if (opts.responseType) {
+    req.responseType = opts.responseType;
+  }
 
   if (opts.form) {
     req.data = opts.form;
