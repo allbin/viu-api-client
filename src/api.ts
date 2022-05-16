@@ -86,6 +86,10 @@ export type ApiDeviceRebootEvent = {
 
 export type ApiDeviceRequest = {
   hardware_id: string;
+  /**
+   * Provider's ID for this device
+   */
+  source_id: string;
   organization_id: string;
   type: ApiDeviceType;
   state: ApiDeviceState;
