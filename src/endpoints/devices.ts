@@ -1,10 +1,10 @@
 import call from '../call';
 
 import type { ViuDmsClientOptions } from '../options';
-import type { ApiDevice, ApiDeviceRequest } from '../api';
+import type { ApiDevice, ApiDeviceType, ApiDeviceRequest } from '../api';
 
 interface DeviceOperations {
-  list: () => Promise<ApiDevice[]>;
+  list: (type?: ApiDeviceType, hardware_id?: string) => Promise<ApiDevice[]>;
   get: (id: string) => Promise<ApiDevice>;
   create: (device: ApiDeviceRequest) => Promise<ApiDevice>;
   update: (id: string, device: ApiDeviceRequest) => Promise<ApiDevice>;
@@ -16,8 +16,23 @@ interface DeviceOperations {
 export const deviceOperations = (
   opts: ViuDmsClientOptions,
 ): DeviceOperations => ({
-  list: async () =>
-    await call<undefined, ApiDevice[]>('GET', `/devices`, { ...opts }),
+  list: async (type, hardware_id) => {
+    const query =
+      type || hardware_id
+        ? { ...(type ? { type } : {}), ...(hardware_id ? { hardware_id } : {}) }
+        : undefined;
+
+    const qstring = query
+      ? '?' +
+        Object.entries(query)
+          .map(([k, v]) => `${k}=${v}`)
+          .join('&')
+      : '';
+
+    return await call<undefined, ApiDevice[]>('GET', `/devices${qstring}`, {
+      ...opts,
+    });
+  },
   get: async (id) =>
     await call<undefined, ApiDevice>('GET', `/devices/${id}`, { ...opts }),
   create: async (device) =>
