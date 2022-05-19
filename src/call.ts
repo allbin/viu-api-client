@@ -9,6 +9,7 @@ const call = async <R, T>(
     body?: R;
     form?: FormData;
     responseType?: AxiosRequestConfig['responseType'];
+    noAuth?: boolean;
   },
 ): Promise<T> => {
   const req: AxiosRequestConfig<R | FormData> = {
@@ -16,15 +17,16 @@ const call = async <R, T>(
     headers: {},
     baseURL: opts.baseUrl,
   };
-  const auth: AxiosRequestConfig['headers'] = opts.token
-    ? typeof opts.token === 'function'
-      ? {
-          Authorization: `Bearer ${await opts.token()}`,
-        }
-      : {
-          Authorization: `Bearer ${opts.token}`,
-        }
-    : {};
+  const auth: AxiosRequestConfig['headers'] =
+    !opts.noAuth && opts.token
+      ? typeof opts.token === 'function'
+        ? {
+            Authorization: `Bearer ${await opts.token()}`,
+          }
+        : {
+            Authorization: `Bearer ${opts.token}`,
+          }
+      : {};
 
   req.headers = {
     ...(opts.body ? { 'Content-Type': 'application/json' } : {}),
