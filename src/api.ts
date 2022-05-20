@@ -69,14 +69,17 @@ export type ApiDeviceInstallationEvent = {
   data: ApiDeviceInstallationEventData;
 };
 
-export type ApiDeviceLocation = {
+export type ApiDeviceLocationPublicRequest = {
   city: string;
   /**
    * Street address
    */
   address: string;
   property_name?: string;
-  placement: 'entrance' | 'laundry-room';
+  placement: string;
+};
+
+export type ApiDeviceLocation = ApiDeviceLocationPublicRequest & {
   coordinate: ApiCoordinate;
 };
 
