@@ -138,8 +138,8 @@ export type ApiDeviceStatusValueTransition = {
 export type ApiDevice = {
   id: string;
   meta: ApiMetadata;
-} & ApiDeviceRequest &
-  ApiDeviceStatus;
+  status: ApiDeviceStatus;
+} & ApiDeviceRequest;
 
 export type ApiDeviceType = 'eloview';
 
