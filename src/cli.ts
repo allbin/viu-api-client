@@ -68,7 +68,9 @@ void (async () => {
       process.exit(0);
     }
 
-    const online_device = devices.find((d) => d.hardware_online === true);
+    const online_device = devices.find(
+      (d) => d.status.hardware_online === true,
+    );
     if (!online_device) {
       console.log('no online devices found. exiting...');
       process.exit(0);
