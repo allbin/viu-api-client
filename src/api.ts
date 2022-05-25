@@ -13,6 +13,8 @@ export type ApiCoordinate = {
   y: number;
 };
 
+export type ApiDeviceConfig = Record<string, boolean | number | string>;
+
 export type ApiDeviceCreationEvent = {
   type: 'creation';
 };
@@ -45,7 +47,6 @@ export type ApiDeviceEventQueryParams = {
 };
 
 export type ApiDeviceEventRequest = {
-  user_id: string;
   device_id: string;
 } & (
   | ApiDeviceRebootEvent
