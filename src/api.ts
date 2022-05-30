@@ -100,7 +100,7 @@ export type ApiDeviceRequest = {
   location?: ApiDeviceLocation;
 };
 
-export type ApiDeviceState = 'created' | 'registered';
+export type ApiDeviceState = 'created' | 'installed';
 
 export type ApiDeviceStatusChangeEventData =
   | ApiDeviceStatusHwChangeData
