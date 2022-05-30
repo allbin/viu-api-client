@@ -82,6 +82,7 @@ export type ApiDeviceLocationPublicRequest = {
 
 export type ApiDeviceLocation = ApiDeviceLocationPublicRequest & {
   coordinate: ApiCoordinate;
+  zipcode: string;
 };
 
 export type ApiDeviceRebootEvent = {
