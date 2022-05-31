@@ -77,7 +77,7 @@ export type ApiDeviceLocationPublicRequest = {
    */
   address: string;
   property_name?: string;
-  placement: string;
+  placement?: string;
 };
 
 export type ApiDeviceLocation = ApiDeviceLocationPublicRequest & {
