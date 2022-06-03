@@ -31,6 +31,7 @@ const call = async <R, T>(
   req.headers = {
     ...(opts.body ? { 'Content-Type': 'application/json' } : {}),
     ...auth,
+    ...(opts.apiKey ? { 'x-api-key': opts.apiKey } : {}),
   };
 
   if (opts.responseType) {
