@@ -1,7 +1,7 @@
 import call from '../call';
 
 import type { ViuDmsClientOptions } from '../options';
-import type { ApiDevice, ApiDeviceLocationPublicRequest } from '../api';
+import type { ApiDevice, ApiDeviceLocation } from '../api';
 
 interface PublicOperations {
   devices: {
@@ -9,7 +9,7 @@ interface PublicOperations {
     getConfig: <T>(id: string) => Promise<T>;
     updateLocation: (
       id: string,
-      location: ApiDeviceLocationPublicRequest,
+      location: ApiDeviceLocation,
     ) => Promise<ApiDevice>;
   };
 }
@@ -29,7 +29,7 @@ export const publicOperations = (
         noAuth: true,
       }),
     updateLocation: async (id, location) =>
-      await call<ApiDeviceLocationPublicRequest, ApiDevice>(
+      await call<ApiDeviceLocation, ApiDevice>(
         'PUT',
         `/public/devices/${id}/location`,
         {

@@ -70,7 +70,7 @@ export type ApiDeviceInstallationEvent = {
   data: ApiDeviceInstallationEventData;
 };
 
-export type ApiDeviceLocationPublicRequest = {
+export type ApiDeviceLocation = {
   city: string;
   /**
    * Street address
@@ -78,9 +78,6 @@ export type ApiDeviceLocationPublicRequest = {
   address: string;
   property_name?: string;
   placement?: string;
-};
-
-export type ApiDeviceLocation = ApiDeviceLocationPublicRequest & {
   coordinate: ApiCoordinate;
   zipcode: string;
 };
