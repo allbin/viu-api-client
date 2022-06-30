@@ -13,11 +13,23 @@ export type ApiCoordinate = {
   y: number;
 };
 
+export type ApiDevice = {
+  id: string;
+  meta: ApiMetadata;
+  status: ApiDeviceStatus;
+} & ApiDeviceRequest;
+
 export type ApiDeviceConfig = Record<string, boolean | number | string>;
 
 export type ApiDeviceCreationEvent = {
   type: 'creation';
 };
+
+export type ApiDeviceEvent = {
+  id: string;
+  organization_id: string;
+  meta: ApiMetadata;
+} & ApiDeviceRequest;
 
 export type ApiDeviceEventQueryParams = {
   /**
@@ -55,19 +67,13 @@ export type ApiDeviceEventRequest = {
   | ApiDeviceInstallationEvent
 );
 
-export type ApiDeviceEvent = {
-  id: string;
-  organization_id: string;
-  meta: ApiMetadata;
-} & ApiDeviceRequest;
-
-export type ApiDeviceInstallationEventData = {
-  location: ApiDeviceLocation;
-};
-
 export type ApiDeviceInstallationEvent = {
   type: 'installation';
   data: ApiDeviceInstallationEventData;
+};
+
+export type ApiDeviceInstallationEventData = {
+  location: ApiDeviceLocation;
 };
 
 export type ApiDeviceLocation = {
@@ -93,6 +99,14 @@ export type ApiDeviceRequest = {
    */
   source_id: string;
   organization_id: string;
+  /**
+   * RFC 3339 date
+   */
+  license_expiry?: string;
+  /**
+   * RFC 3339 date
+   */
+  warranty_expiry?: string;
   type: ApiDeviceType;
   state: ApiDeviceState;
   location?: ApiDeviceLocation;
@@ -100,15 +114,21 @@ export type ApiDeviceRequest = {
 
 export type ApiDeviceState = 'created' | 'installed';
 
-export type ApiDeviceStatusChangeEventData =
-  | ApiDeviceStatusHwChangeData
-  | ApiDeviceStatusSwChangeData
-  | ApiDeviceStatusHwAndSwChangeData;
+export type ApiDeviceStatus = {
+  hardware_online: boolean;
+  software_online: boolean;
+  last_seen?: string;
+};
 
 export type ApiDeviceStatusChangeEvent = {
   type: 'status-change';
   data: ApiDeviceStatusChangeEventData;
 };
+
+export type ApiDeviceStatusChangeEventData =
+  | ApiDeviceStatusHwChangeData
+  | ApiDeviceStatusSwChangeData
+  | ApiDeviceStatusHwAndSwChangeData;
 
 export type ApiDeviceStatusHwAndSwChangeData = {
   hw: ApiDeviceStatusValueTransition;
@@ -123,22 +143,10 @@ export type ApiDeviceStatusSwChangeData = {
   sw: ApiDeviceStatusValueTransition;
 };
 
-export type ApiDeviceStatus = {
-  hardware_online: boolean;
-  software_online: boolean;
-  last_seen?: string;
-};
-
 export type ApiDeviceStatusValueTransition = {
   from?: boolean;
   to: boolean;
 };
-
-export type ApiDevice = {
-  id: string;
-  meta: ApiMetadata;
-  status: ApiDeviceStatus;
-} & ApiDeviceRequest;
 
 export type ApiDeviceType = 'eloview';
 
@@ -172,14 +180,14 @@ export type ApiMetadata = {
   deleted_by?: string;
 };
 
-export type ApiOrganizationRequest = {
-  name: string;
-};
-
 export type ApiOrganization = {
   id: string;
   meta: ApiMetadata;
 } & ApiOrganizationRequest;
+
+export type ApiOrganizationRequest = {
+  name: string;
+};
 
 export type ApiParameterValidationError = {
   /**
