@@ -221,6 +221,8 @@ export type ApiPermission =
   | 'devices:update'
   | 'devices:delete';
 
+export type ApiProfile = Record<string, any>;
+
 export type ApiValidationError = ApiError & {
   errors?: Array<ApiParameterValidationError>;
 };
