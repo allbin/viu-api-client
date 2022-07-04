@@ -82,7 +82,6 @@ export type ApiDeviceLocation = {
    * Street address
    */
   address: string;
-  property_name?: string;
   placement?: string;
   coordinate: ApiCoordinate;
   zipcode: string;
@@ -93,6 +92,14 @@ export type ApiDeviceRebootEvent = {
 };
 
 export type ApiDeviceRequest = {
+  /**
+   * Name of the device
+   */
+  name: string;
+  /**
+   * Name of the building or property the device is located in
+   */
+  site_name?: string;
   hardware_id: string;
   /**
    * Provider's ID for this device
