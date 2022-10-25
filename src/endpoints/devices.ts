@@ -46,7 +46,7 @@ export const deviceOperations = (
       body: device,
     }),
   patch: async (id, device) =>
-    await call<ApiDeviceRequest, ApiDevice>('PUT', `/devices/${id}`, {
+    await call<ApiDeviceRequest, ApiDevice>('PATCH', `/devices/${id}`, {
       ...opts,
       body: device,
     }),
