@@ -50,7 +50,8 @@ export type ApiDeviceEventRequest = {
   device_id: string;
 } & (
   | ApiDeviceRebootEvent
-  | ApiDeviceStatusChangeEvent
+  | ApiDeviceSoftwareStatusChangeEvent
+  | ApiDeviceHardwareStatusChangeEvent
   | ApiDeviceCreationEvent
   | ApiDeviceInstallationEvent
 );
@@ -60,6 +61,11 @@ export type ApiDeviceEvent = {
   organization_id: string;
   meta: ApiMetadata;
 } & ApiDeviceEventRequest;
+
+export type ApiDeviceHardwareStatusChangeEvent = {
+  type: 'status-change-hardware';
+  data: ApiDeviceStatusChangeEventData;
+};
 
 export type ApiDeviceInstallationEventData = {
   location: ApiDeviceLocation;
@@ -113,40 +119,21 @@ export type ApiDeviceRequest = {
   location?: ApiDeviceLocation;
 };
 
-export type ApiDeviceState = 'created' | 'installed';
-
-export type ApiDeviceStatusChangeEventData =
-  | ApiDeviceStatusHwChangeData
-  | ApiDeviceStatusSwChangeData
-  | ApiDeviceStatusHwAndSwChangeData;
-
-export type ApiDeviceStatusChangeEvent = {
-  type: 'status-change';
+export type ApiDeviceSoftwareStatusChangeEvent = {
+  type: 'status-change-software';
   data: ApiDeviceStatusChangeEventData;
 };
 
-export type ApiDeviceStatusHwAndSwChangeData = {
-  hw: ApiDeviceStatusValueTransition;
-  sw: ApiDeviceStatusValueTransition;
-};
+export type ApiDeviceState = 'created' | 'installed';
 
-export type ApiDeviceStatusHwChangeData = {
-  hw: ApiDeviceStatusValueTransition;
-};
-
-export type ApiDeviceStatusSwChangeData = {
-  sw: ApiDeviceStatusValueTransition;
+export type ApiDeviceStatusChangeEventData = {
+  online: boolean;
 };
 
 export type ApiDeviceStatus = {
   hardware_online: boolean;
   software_online: boolean;
   last_seen?: string;
-};
-
-export type ApiDeviceStatusValueTransition = {
-  from?: boolean;
-  to: boolean;
 };
 
 export type ApiDevice = {
