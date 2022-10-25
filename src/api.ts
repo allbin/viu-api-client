@@ -19,6 +19,25 @@ export type ApiDeviceCreationEvent = {
   type: 'creation';
 };
 
+export type ApiDeviceDBRequest = {
+  /**
+   * Name of the device
+   */
+  name: string;
+  /**
+   * Name of the building or property the device is located in
+   */
+  site_name?: string;
+  hardware_id: string;
+  /**
+   * Provider's ID for this device
+   */
+  source_id: string;
+  organization_id: string;
+  type: ApiDeviceType;
+  state: ApiDeviceState;
+} & ApiDeviceRequest;
+
 export type ApiDeviceEventQueryParams = {
   /**
    * DeviceEvent ID
@@ -92,20 +111,7 @@ export type ApiDeviceRebootEvent = {
 };
 
 export type ApiDeviceRequest = {
-  /**
-   * Name of the device
-   */
-  name: string;
-  /**
-   * Name of the building or property the device is located in
-   */
-  site_name?: string;
-  hardware_id: string;
-  /**
-   * Provider's ID for this device
-   */
-  source_id: string;
-  organization_id: string;
+  location?: ApiDeviceLocation;
   /**
    * YYYY-MM-DD formatted date
    */
@@ -114,9 +120,6 @@ export type ApiDeviceRequest = {
    * YYYY-MM-DD formatted date
    */
   warranty_expiry?: string;
-  type: ApiDeviceType;
-  state: ApiDeviceState;
-  location?: ApiDeviceLocation;
 };
 
 export type ApiDeviceSoftwareStatusChangeEvent = {
@@ -140,7 +143,7 @@ export type ApiDevice = {
   id: string;
   meta: ApiMetadata;
   status: ApiDeviceStatus;
-} & ApiDeviceRequest;
+} & ApiDeviceDBRequest;
 
 export type ApiDeviceType = 'eloview';
 

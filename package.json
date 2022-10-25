@@ -1,6 +1,6 @@
 {
   "name": "@allbin/viu-dms-api-client",
-  "version": "0.7.0",
+  "version": "0.8.0",
   "description": "API Client for Viu DMS",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",

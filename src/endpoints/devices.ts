@@ -1,13 +1,18 @@
 import call from '../call';
 
 import type { ViuDmsClientOptions } from '../options';
-import type { ApiDevice, ApiDeviceType, ApiDeviceRequest } from '../api';
+import type {
+  ApiDevice,
+  ApiDeviceType,
+  ApiDeviceDBRequest,
+  ApiDeviceRequest,
+} from '../api';
 
 interface DeviceOperations {
   list: (type?: ApiDeviceType, hardware_id?: string) => Promise<ApiDevice[]>;
   get: (id: string) => Promise<ApiDevice>;
-  create: (device: ApiDeviceRequest) => Promise<ApiDevice>;
-  update: (id: string, device: ApiDeviceRequest) => Promise<ApiDevice>;
+  create: (device: ApiDeviceDBRequest) => Promise<ApiDevice>;
+  patch: (id: string, device: ApiDeviceRequest) => Promise<ApiDevice>;
   delete: (id: string) => Promise<ApiDevice>;
 
   screenshot: (id: string) => Promise<ArrayBuffer>;
@@ -36,11 +41,11 @@ export const deviceOperations = (
   get: async (id) =>
     await call<undefined, ApiDevice>('GET', `/devices/${id}`, { ...opts }),
   create: async (device) =>
-    await call<ApiDeviceRequest, ApiDevice>('POST', `/devices`, {
+    await call<ApiDeviceDBRequest, ApiDevice>('POST', `/devices`, {
       ...opts,
       body: device,
     }),
-  update: async (id, device) =>
+  patch: async (id, device) =>
     await call<ApiDeviceRequest, ApiDevice>('PUT', `/devices/${id}`, {
       ...opts,
       body: device,
