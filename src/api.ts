@@ -214,9 +214,26 @@ export type ApiPermission =
   | 'devices:create'
   | 'devices:update'
   | 'devices:delete'
-  | 'devices:factory-reset';
+  | 'devices:factory-reset'
+  | 'users:read-all';
 
 export type ApiProfile = Record<string, any>;
+
+export type ApiUser = {
+  /**
+   * User ID
+   */
+  id: string;
+  meta: ApiMetadata;
+  /**
+   * User full name
+   */
+  name: string;
+  /**
+   * User email
+   */
+  email: string;
+};
 
 export type ApiValidationError = ApiError & {
   errors?: Array<ApiParameterValidationError>;

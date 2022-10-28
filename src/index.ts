@@ -6,6 +6,7 @@ import {
   organizationOperations,
   profileOperations,
   publicOperations,
+  userOperations,
 } from './endpoints';
 
 interface IViuDmsApiClient {
@@ -14,6 +15,7 @@ interface IViuDmsApiClient {
   deviceEvents: ReturnType<typeof deviceEventOperations>;
   organizations: ReturnType<typeof organizationOperations>;
   profile: ReturnType<typeof profileOperations>;
+  users: ReturnType<typeof userOperations>;
 }
 
 const ViuDmsApiClient = (opts: ViuDmsClientOptions): IViuDmsApiClient => ({
@@ -22,6 +24,7 @@ const ViuDmsApiClient = (opts: ViuDmsClientOptions): IViuDmsApiClient => ({
   organizations: organizationOperations(opts),
   profile: profileOperations(opts),
   public: publicOperations(opts),
+  users: userOperations(opts),
 });
 
 export { ViuDmsApiClient, IViuDmsApiClient };
