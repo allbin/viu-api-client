@@ -104,6 +104,10 @@ export type ApiDeviceLocation = {
   placement?: string;
   coordinate: ApiCoordinate;
   zipcode: string;
+  /**
+   * Property site name
+   */
+  site_name?: string;
 };
 
 export type ApiDeviceRebootEvent = {
@@ -209,7 +213,8 @@ export type ApiParameterValidationError = {
 export type ApiPermission =
   | 'devices:create'
   | 'devices:update'
-  | 'devices:delete';
+  | 'devices:delete'
+  | 'devices:factory-reset';
 
 export type ApiProfile = Record<string, any>;
 
