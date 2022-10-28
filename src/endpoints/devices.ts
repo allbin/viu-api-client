@@ -14,6 +14,8 @@ interface DeviceOperations {
   create: (device: ApiDeviceDBRequest) => Promise<ApiDevice>;
   patch: (id: string, device: ApiDeviceRequest) => Promise<ApiDevice>;
   delete: (id: string) => Promise<ApiDevice>;
+  reboot: (id: string) => Promise<void>;
+  factoryReset: (id: string) => Promise<void>;
 
   screenshot: (id: string) => Promise<ArrayBuffer>;
 }
@@ -52,7 +54,14 @@ export const deviceOperations = (
     }),
   delete: async (id) =>
     await call<undefined, ApiDevice>('DELETE', `/devices/${id}`, { ...opts }),
-
+  reboot: async (id) =>
+    await call<undefined, undefined>('POST', `/devices/${id}/reboot`, {
+      ...opts,
+    }),
+  factoryReset: async (id) =>
+    await call<undefined, undefined>('POST', `/devices/${id}/factory_reset`, {
+      ...opts,
+    }),
   screenshot: async (id) =>
     await call<undefined, ArrayBuffer>('GET', `/devices/${id}/screenshot`, {
       ...opts,
