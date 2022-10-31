@@ -102,7 +102,7 @@ export type ApiDeviceLocation = {
    */
   address: string;
   placement?: string;
-  coordinate: ApiCoordinate;
+  coordinate?: ApiCoordinate;
   zipcode: string;
   /**
    * Property site name
