@@ -6,6 +6,7 @@ const call = async <R, T>(
   method: Method,
   url: string,
   opts: ViuDmsClientOptions & {
+    params?: unknown;
     body?: R;
     form?: FormData;
     responseType?: AxiosRequestConfig['responseType'];
@@ -15,6 +16,7 @@ const call = async <R, T>(
   const req: AxiosRequestConfig<R | FormData> = {
     method,
     headers: {},
+    params: opts.params,
     baseURL: opts.baseUrl,
   };
   const auth: AxiosRequestConfig['headers'] =
@@ -29,7 +31,6 @@ const call = async <R, T>(
       : {};
 
   req.headers = {
-    ...(opts.body ? { 'Content-Type': 'application/json' } : {}),
     ...auth,
     ...(opts.apiKey ? { 'x-api-key': opts.apiKey } : {}),
   };
@@ -40,8 +41,10 @@ const call = async <R, T>(
 
   if (opts.form) {
     req.data = opts.form;
+    req.headers['content-type'] = 'multipart/form-data';
   } else if (opts.body) {
     req.data = opts.body;
+    req.headers['content-type'] = 'application/json';
   }
 
   return await axios.request<T>({ url, ...req }).then((r) => r.data);

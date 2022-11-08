@@ -1,5 +1,3 @@
-import querystring from 'querystring';
-
 import call from '../call';
 
 import type { ViuDmsClientOptions } from '../options';
@@ -13,13 +11,9 @@ export const deviceEventOperations = (
   opts: ViuDmsClientOptions,
 ): DeviceEventOperations => ({
   query: async (params) => {
-    const qstring = querystring.stringify({
-      ...params,
+    return await call<undefined, ApiDeviceEvent[]>('GET', `/devices`, {
+      ...opts,
+      params,
     });
-    return await call<undefined, ApiDeviceEvent[]>(
-      'GET',
-      `/devices?${qstring}`,
-      { ...opts },
-    );
   },
 });
