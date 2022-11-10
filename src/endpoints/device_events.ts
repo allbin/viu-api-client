@@ -11,7 +11,7 @@ export const deviceEventOperations = (
   opts: ViuDmsClientOptions,
 ): DeviceEventOperations => ({
   query: async (params) => {
-    return await call<undefined, ApiDeviceEvent[]>('GET', `/devices`, {
+    return await call<undefined, ApiDeviceEvent[]>('GET', `/device_events`, {
       ...opts,
       params,
     });
