@@ -11,9 +11,13 @@ export const deviceEventOperations = (
   opts: ViuDmsClientOptions,
 ): DeviceEventOperations => ({
   query: async (params) => {
-    return await call<undefined, ApiDeviceEvent[]>('GET', `/device-events`, {
-      ...opts,
-      params,
-    });
+    return await call<undefined, ApiDeviceEvent[]>(
+      'GET',
+      `/device-events/query`,
+      {
+        ...opts,
+        params,
+      },
+    );
   },
 });
