@@ -73,6 +73,7 @@ export type ApiDeviceEventRequest = {
   | ApiDeviceHardwareStatusChangeEvent
   | ApiDeviceCreationEvent
   | ApiDeviceInstallationEvent
+  | ApiDeviceUninstallEvent
 );
 
 export type ApiDeviceEvent = {
@@ -151,6 +152,10 @@ export type ApiDevice = {
 
 export type ApiDeviceType = 'eloview';
 
+export type ApiDeviceUninstallEvent = {
+  type: 'uninstall';
+};
+
 export type ApiError = {
   /**
    * Error message
@@ -215,6 +220,7 @@ export type ApiPermission =
   | 'devices:update'
   | 'devices:delete'
   | 'devices:factory-reset'
+  | 'devices:uninstall'
   | 'users:read-all';
 
 export type ApiProfile = Record<string, any>;
