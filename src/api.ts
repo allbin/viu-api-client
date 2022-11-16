@@ -24,10 +24,6 @@ export type ApiDeviceDBRequest = {
    * Name of the device
    */
   name: string;
-  /**
-   * Name of the building or property the device is located in
-   */
-  site_name?: string;
   hardware_id: string;
   /**
    * Provider's ID for this device
