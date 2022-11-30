@@ -74,7 +74,6 @@ export type ApiDeviceEventRequest = {
 
 export type ApiDeviceEvent = {
   id: string;
-  organization_id: string;
   meta: ApiMetadata;
 } & ApiDeviceEventRequest;
 
@@ -121,6 +120,9 @@ export type ApiDeviceRequest = {
    * YYYY-MM-DD formatted date
    */
   warranty_expiry?: string;
+  custom_fields?: {
+    landlord_info_uri?: string;
+  };
 };
 
 export type ApiDeviceSoftwareStatusChangeEvent = {
