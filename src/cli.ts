@@ -2,7 +2,7 @@ import axios from 'axios';
 import jwt from 'jsonwebtoken';
 import { DateTime } from 'luxon';
 
-import { ViuApiApiClient } from './index';
+import { ViuApiClient } from './index';
 
 interface AuthCtx {
   token?: string;
@@ -56,7 +56,7 @@ const getToken = async (): Promise<string> => {
 
 void (async () => {
   try {
-    const client = ViuApiApiClient({
+    const client = ViuApiClient({
       baseUrl: 'http://localhost:50000',
       token: getToken,
     });

@@ -13,7 +13,7 @@ import {
   userOperations,
 } from './endpoints';
 
-interface IViuApiApiClient {
+interface IViuApiClient {
   public: ReturnType<typeof publicOperations>;
   announcements: ReturnType<typeof announcementOperations>;
   attachments: ReturnType<typeof attachmentOperations>;
@@ -26,7 +26,7 @@ interface IViuApiApiClient {
   users: ReturnType<typeof userOperations>;
 }
 
-const ViuApiApiClient = (opts: ViuApiClientOptions): IViuApiApiClient => ({
+const ViuApiClient = (opts: ViuApiClientOptions): IViuApiClient => ({
   announcements: announcementOperations(opts),
   attachments: attachmentOperations(opts),
   devices: deviceOperations(opts),
@@ -39,7 +39,7 @@ const ViuApiApiClient = (opts: ViuApiClientOptions): IViuApiApiClient => ({
   users: userOperations(opts),
 });
 
-export { ViuApiApiClient, IViuApiApiClient };
+export { ViuApiClient, IViuApiClient };
 export { makeDeviceId } from './utils';
 
 export * from './api';
