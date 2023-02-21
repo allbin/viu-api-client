@@ -1,21 +1,26 @@
 import call from '../call';
 
-import type { ViuDmsClientOptions } from '../options';
-import type { ApiDevice, ApiDeviceLocation } from '../api';
+import type { ViuApiClientOptions } from '../options';
+import type {
+  ApiDevice,
+  ApiLocation,
+  ApiDeviceInstallationRequest,
+} from '../api';
 
 interface PublicOperations {
   devices: {
     get: (id: string) => Promise<ApiDevice>;
     getConfig: <T>(id: string) => Promise<T>;
-    updateLocation: (
+    getLocation: (id: string) => Promise<ApiLocation>;
+    install: (
       id: string,
-      location: ApiDeviceLocation,
+      data: ApiDeviceInstallationRequest,
     ) => Promise<ApiDevice>;
   };
 }
 
 export const publicOperations = (
-  opts: ViuDmsClientOptions,
+  opts: ViuApiClientOptions,
 ): PublicOperations => ({
   devices: {
     get: async (id) =>
@@ -28,13 +33,22 @@ export const publicOperations = (
         ...opts,
         noAuth: true,
       }),
-    updateLocation: async (id, location) =>
-      await call<ApiDeviceLocation, ApiDevice>(
-        'PUT',
+    getLocation: async (id: string) =>
+      await call<undefined, ApiLocation>(
+        'GET',
         `/public/devices/${id}/location`,
         {
           ...opts,
-          body: location,
+          noAuth: true,
+        },
+      ),
+    install: async (id, data) =>
+      await call<ApiDeviceInstallationRequest, ApiDevice>(
+        'PUT',
+        `/public/devices/${id}/install`,
+        {
+          ...opts,
+          body: data,
           noAuth: true,
         },
       ),

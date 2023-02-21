@@ -1,6 +1,6 @@
 type AcquireTokenFunction = () => Promise<string>;
 
-export interface ViuDmsClientOptions {
+export interface ViuApiClientOptions {
   baseUrl: string;
   apiKey?: string;
   token?: string | AcquireTokenFunction;

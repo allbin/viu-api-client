@@ -2,7 +2,7 @@ import axios from 'axios';
 import jwt from 'jsonwebtoken';
 import { DateTime } from 'luxon';
 
-import { ViuDmsApiClient } from './index';
+import { ViuApiApiClient } from './index';
 
 interface AuthCtx {
   token?: string;
@@ -43,7 +43,7 @@ const getToken = async (): Promise<string> => {
   const response = await axios.post<{ access_token: string }>(
     'https://allbin.eu.auth0.com/oauth/token',
     {
-      audience: 'https://api.viu-dms.dev.allbin.se',
+      audience: 'https://api.viu.dev.allbin.se',
       grant_type: 'client_credentials',
       client_id: 'vCEC4uiW9ztEeoBwf7bLyP1iquZjXppX',
       client_secret: process.env.CLIENT_SECRET,
@@ -56,7 +56,7 @@ const getToken = async (): Promise<string> => {
 
 void (async () => {
   try {
-    const client = ViuDmsApiClient({
+    const client = ViuApiApiClient({
       baseUrl: 'http://localhost:50000',
       token: getToken,
     });

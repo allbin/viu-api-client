@@ -1,6 +1,6 @@
 import call from '../call';
 
-import type { ViuDmsClientOptions } from '../options';
+import type { ViuApiClientOptions } from '../options';
 import type { ApiOrganization } from '../api';
 
 interface OrganizationOperations {
@@ -8,7 +8,7 @@ interface OrganizationOperations {
 }
 
 export const organizationOperations = (
-  opts: ViuDmsClientOptions,
+  opts: ViuApiClientOptions,
 ): OrganizationOperations => ({
   list: async () =>
     await call<undefined, ApiOrganization[]>('GET', `/organizations`, {

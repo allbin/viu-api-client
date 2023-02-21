@@ -1,11 +1,11 @@
 import axios, { AxiosRequestConfig, Method } from 'axios';
 
-import { ViuDmsClientOptions } from './options';
+import { ViuApiClientOptions } from './options';
 
 const call = async <R, T>(
   method: Method,
   url: string,
-  opts: ViuDmsClientOptions & {
+  opts: ViuApiClientOptions & {
     params?: unknown;
     body?: R;
     form?: FormData;

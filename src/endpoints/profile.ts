@@ -1,6 +1,6 @@
 import call from '../call';
 
-import type { ViuDmsClientOptions } from '../options';
+import type { ViuApiClientOptions } from '../options';
 
 import type { ApiProfile } from '../api';
 
@@ -10,7 +10,7 @@ interface ProfileOperations {
 }
 
 export const profileOperations = (
-  opts: ViuDmsClientOptions,
+  opts: ViuApiClientOptions,
 ): ProfileOperations => ({
   get: async () =>
     await call<undefined, ApiProfile>('GET', `/profile`, { ...opts }),

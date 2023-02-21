@@ -1,6 +1,6 @@
 import call from '../call';
 
-import type { ViuDmsClientOptions } from '../options';
+import type { ViuApiClientOptions } from '../options';
 import type {
   ApiDevice,
   ApiDeviceType,
@@ -17,12 +17,11 @@ interface DeviceOperations {
   reboot: (id: string) => Promise<void>;
   uninstall: (id: string) => Promise<ApiDevice>;
   factoryReset: (id: string) => Promise<void>;
-
   screenshot: (id: string) => Promise<ArrayBuffer>;
 }
 
 export const deviceOperations = (
-  opts: ViuDmsClientOptions,
+  opts: ViuApiClientOptions,
 ): DeviceOperations => ({
   list: async (type, hardware_id) => {
     const query =

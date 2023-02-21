@@ -1,6 +1,6 @@
 import call from '../call';
 
-import type { ViuDmsClientOptions } from '../options';
+import type { ViuApiClientOptions } from '../options';
 import type { ApiDeviceEvent, ApiDeviceEventQueryParams } from '../api';
 
 interface DeviceEventOperations {
@@ -8,7 +8,7 @@ interface DeviceEventOperations {
 }
 
 export const deviceEventOperations = (
-  opts: ViuDmsClientOptions,
+  opts: ViuApiClientOptions,
 ): DeviceEventOperations => ({
   query: async (params) => {
     return await call<undefined, ApiDeviceEvent[]>(

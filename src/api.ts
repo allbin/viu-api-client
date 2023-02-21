@@ -1,3 +1,70 @@
+export type ApiAddress = {
+  /**
+   * Street address
+   */
+  street: string;
+  zipcode: string;
+  city: string;
+};
+
+export type ApiAnnouncementRequest = {
+  message: string;
+  location_ids: Array<string>;
+  active_from?: string;
+  active_to?: string;
+};
+
+export type ApiAnnouncement = ApiUuidEntity & ApiAnnouncementRequest;
+
+export type ApiApartmentRequest = {
+  organization_id: string;
+  /**
+   * References an ApiLocation
+   */
+  location_id: string;
+  /**
+   * Unit identifier
+   */
+  unit: string;
+  /**
+   * Floor number
+   */
+  floor: number;
+  tenants: Array<ApiTenant>;
+  /**
+   * Provider's ID for this device
+   */
+  source_id?: string;
+};
+
+export type ApiApartment = ApiUuidEntity & ApiApartmentRequest;
+
+export type ApiAttachmentCategory = 'ovk' | 'energy_declaration' | 'other';
+
+export type ApiAttachmentPatchRequest = {
+  /**
+   * Displayed file name
+   */
+  name: string;
+  category: ApiAttachmentCategory;
+  location_ids: Array<string>;
+  active_from?: string;
+  active_to?: string;
+};
+
+export type ApiAttachmentRequest = ApiAttachmentPatchRequest & {
+  /**
+   * SHA256 hash of the file contents. Used as filename in the storage bucket.
+   */
+  content_hash: string;
+  /**
+   * MIME-type
+   */
+  mime_type: string;
+};
+
+export type ApiAttachment = ApiUuidEntity & ApiAttachmentRequest;
+
 export type ApiCoordinate = {
   /**
    * Coordinate Reference System
@@ -32,6 +99,7 @@ export type ApiDeviceDBRequest = {
   organization_id: string;
   type: ApiDeviceType;
   state: ApiDeviceState;
+  location_id?: string;
 } & ApiDeviceRequest;
 
 export type ApiDeviceEventQueryParams = {
@@ -72,10 +140,10 @@ export type ApiDeviceEventRequest = {
   | ApiDeviceUninstallEvent
 );
 
-export type ApiDeviceEvent = {
-  id: string;
-  meta: ApiMetadata;
-} & ApiDeviceEventRequest;
+export type ApiDeviceEvent = ApiStringEntity &
+  ApiDeviceEventRequest & {
+    organization_id: string;
+  };
 
 export type ApiDeviceHardwareStatusChangeEvent = {
   type: 'status-change-hardware';
@@ -83,7 +151,7 @@ export type ApiDeviceHardwareStatusChangeEvent = {
 };
 
 export type ApiDeviceInstallationEventData = {
-  location: ApiDeviceLocation;
+  location: ApiLocation;
 };
 
 export type ApiDeviceInstallationEvent = {
@@ -91,19 +159,12 @@ export type ApiDeviceInstallationEvent = {
   data: ApiDeviceInstallationEventData;
 };
 
-export type ApiDeviceLocation = {
-  city: string;
+export type ApiDeviceInstallationRequest = {
+  location_id: string;
   /**
-   * Street address
+   * Specific place within the location where the device is installed
    */
-  address: string;
-  placement?: string;
-  coordinate?: ApiCoordinate;
-  zipcode: string;
-  /**
-   * Property site name
-   */
-  site_name?: string;
+  placement: string;
 };
 
 export type ApiDeviceRebootEvent = {
@@ -111,7 +172,14 @@ export type ApiDeviceRebootEvent = {
 };
 
 export type ApiDeviceRequest = {
-  location?: ApiDeviceLocation;
+  /**
+   * References an ApiLocation object
+   */
+  location_id?: string;
+  /**
+   * Specific place within the location where the device is installed
+   */
+  placement?: string;
   /**
    * YYYY-MM-DD formatted date
    */
@@ -120,9 +188,6 @@ export type ApiDeviceRequest = {
    * YYYY-MM-DD formatted date
    */
   warranty_expiry?: string;
-  custom_fields?: {
-    landlord_info_uri?: string;
-  };
 };
 
 export type ApiDeviceSoftwareStatusChangeEvent = {
@@ -142,11 +207,10 @@ export type ApiDeviceStatus = {
   last_seen?: string;
 };
 
-export type ApiDevice = {
-  id: string;
-  meta: ApiMetadata;
-  status: ApiDeviceStatus;
-} & ApiDeviceDBRequest;
+export type ApiDevice = ApiStringEntity &
+  ApiDeviceDBRequest & {
+    status: ApiDeviceStatus;
+  };
 
 export type ApiDeviceType = 'eloview';
 
@@ -154,12 +218,37 @@ export type ApiDeviceUninstallEvent = {
   type: 'uninstall';
 };
 
+export type ApiEmbeddedUrlRequest = {
+  name: string;
+  url: string;
+  location_ids: Array<string>;
+  active_from?: string;
+  active_to?: string;
+};
+
+export type ApiEmbeddedUrl = ApiUuidEntity & ApiEmbeddedUrlRequest;
+
 export type ApiError = {
   /**
    * Error message
    */
   message: string;
 };
+
+export type ApiLocationRequest = ApiAddress & {
+  organization_id: string;
+  /**
+   * Provider ID for this location
+   */
+  source_id?: string;
+  /**
+   * Property site name
+   */
+  site_name?: string;
+  coordinate?: ApiCoordinate;
+};
+
+export type ApiLocation = ApiUuidEntity & ApiLocationRequest;
 
 export type ApiMetadata = {
   /**
@@ -188,10 +277,7 @@ export type ApiOrganizationRequest = {
   name: string;
 };
 
-export type ApiOrganization = {
-  id: string;
-  meta: ApiMetadata;
-} & ApiOrganizationRequest;
+export type ApiOrganization = ApiStringEntity & ApiOrganizationRequest;
 
 export type ApiParameterValidationError = {
   /**
@@ -223,6 +309,22 @@ export type ApiPermission =
 
 export type ApiProfile = Record<string, any>;
 
+export type ApiStringEntity = {
+  /**
+   * Identifier
+   */
+  id: string;
+  meta: ApiMetadata;
+};
+
+export type ApiTenant = {
+  id: string;
+  first_name: string;
+  last_name?: string;
+  active_from?: string;
+  active_to?: string;
+};
+
 export type ApiUser = {
   /**
    * User ID
@@ -237,6 +339,14 @@ export type ApiUser = {
    * User email
    */
   email: string;
+};
+
+export type ApiUuidEntity = {
+  /**
+   * Identifier
+   */
+  id: string;
+  meta: ApiMetadata;
 };
 
 export type ApiValidationError = ApiError & {
