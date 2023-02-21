@@ -11,12 +11,16 @@
 
     The new process is
 
-      `GET /public/devices/:id`
-      `GET /public/devices/:id/config`
+      ```
+      GET /public/devices/:id
+      GET /public/devices/:id/config
+      ```
 
-        followed by (if the device had a `location_id`):
+        followed by (if the device had a `location_id`)
 
-      `GET /public/devices/:id/location`
+      ```
+      GET /public/devices/:id/location
+      ```
 
   - ApiDevice no longer contains a `custom_fields` property. The only property existing
     in it was `landlord_info_uri` which is now its own type - ApiEmbeddedUrl. This new
