@@ -19,6 +19,6 @@
       GET /public/devices/:id/location
       ```
 
-  - `ApiDevice` no longer contains a `custom_fields` property. The only property existing
-    in it was `landlord_info_uri` which is now its own type - `ApiEmbeddedUrl`. This new
-    type references zero or more location_ids for which it is to be displayed.
+  - `ApiDevice` no longer contains a `custom_fields` property. The `landlord_info_uri` property
+    which used to be contained within it is now its own endpoint and type - `ApiEmbeddedUrl`.
+    This new type references zero or more location_ids for which it is to be displayed.
