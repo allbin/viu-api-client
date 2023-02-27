@@ -17,12 +17,20 @@ interface LocationOperations {
   delete: (id: string) => Promise<ApiLocation>;
 
   /** lists apartments for a location id */
-  listApartments: (id: string) => Promise<ApiApartment[]>;
-  /** replaces apartments for a location id */
-  setApartments: (
+  listApartments: (location_id: string) => Promise<ApiApartment[]>;
+  getApartment: (location_id: string, id: string) => Promise<ApiApartment>;
+  createApartment: (
+    location_id: string,
+    apartment: ApiApartmentRequest,
+  ) => Promise<ApiApartment>;
+  updateApartment: (
+    location_id: string,
     id: string,
-    apartments: ApiApartmentRequest[],
-  ) => Promise<ApiApartment[]>;
+    apartment: ApiApartmentRequest,
+  ) => Promise<ApiApartment>;
+  /** delete all apartments for a location id */
+  deleteApartments: (location_id: string) => Promise<ApiApartment[]>;
+  deleteApartment: (location_id: string, id: string) => Promise<ApiApartment>;
 }
 
 export const locationOperations = (
@@ -46,18 +54,42 @@ export const locationOperations = (
     await call<undefined, ApiLocation>('DELETE', `/locations/${id}`, {
       ...opts,
     }),
-  listApartments: async (id) =>
+  listApartments: async (location_id) =>
     await call<undefined, ApiApartment[]>(
       'GET',
-      `/locations/${id}/apartments`,
+      `/locations/${location_id}/apartments`,
       {
         ...opts,
       },
     ),
-  setApartments: async (id, apartments) =>
-    await call<ApiApartmentRequest[], ApiApartment[]>(
+  getApartment: async (location_id, id) =>
+    await call<undefined, ApiApartment>(
+      'GET',
+      `/locations/${location_id}/apartments/${id}`,
+      { ...opts },
+    ),
+  createApartment: async (location_id, apartment) =>
+    await call<ApiApartmentRequest, ApiApartment>(
+      'POST',
+      `/locations/${location_id}/apartments`,
+      { ...opts, body: apartment },
+    ),
+  updateApartment: async (location_id, id, apartment) =>
+    await call<ApiApartmentRequest, ApiApartment>(
       'PUT',
-      `/locations/${id}/apartments`,
-      { ...opts, body: apartments },
+      `/locations/${location_id}/apartments/${id}`,
+      { ...opts, body: apartment },
+    ),
+  deleteApartments: async (location_id) =>
+    await call<undefined, ApiApartment[]>(
+      'DELETE',
+      `/locations/${location_id}`,
+      { ...opts },
+    ),
+  deleteApartment: async (location_id, id) =>
+    await call<undefined, ApiApartment>(
+      'DELETE',
+      `/locations/${location_id}/apartments/${id}`,
+      { ...opts },
     ),
 });

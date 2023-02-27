@@ -2,15 +2,11 @@ import call from '../call';
 
 import type { ViuApiClientOptions } from '../options';
 
-import type {
-  ApiAttachment,
-  ApiAttachmentRequest,
-  ApiAttachmentPatchRequest,
-} from '../api';
+import type { ApiAttachment, ApiAttachmentPatchRequest } from '../api';
 
 interface AttachmentOperations {
   list: (location_id?: string) => Promise<ApiAttachment[]>;
-  create: (attachment: ApiAttachmentRequest) => Promise<ApiAttachment>;
+  create: (file: File) => Promise<ApiAttachment>;
   patch: (
     id: string,
     attachment: ApiAttachmentPatchRequest,
@@ -26,11 +22,15 @@ export const attachmentOperations = (
       ...opts,
       ...(location_id ? { params: { location_id } } : {}),
     }),
-  create: async (attachment) =>
-    await call<ApiAttachmentRequest, ApiAttachment>('POST', `/attachments`, {
+  create: async (file) => {
+    const data = new FormData();
+    data.append('file', file);
+    return await call<undefined, ApiAttachment>('POST', `/attachments`, {
       ...opts,
-      body: attachment,
-    }),
+      form: data,
+    });
+  },
+
   patch: async (id, attachment) =>
     await call<ApiAttachmentPatchRequest, ApiAttachment>(
       'PATCH',

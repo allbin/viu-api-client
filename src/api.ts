@@ -17,7 +17,6 @@ export type ApiAnnouncementRequest = {
 export type ApiAnnouncement = ApiUuidEntity & ApiAnnouncementRequest;
 
 export type ApiApartmentRequest = {
-  organization_id: string;
   /**
    * References an ApiLocation
    */
@@ -39,7 +38,10 @@ export type ApiApartmentRequest = {
 
 export type ApiApartment = ApiUuidEntity & ApiApartmentRequest;
 
-export type ApiAttachmentCategory = 'ovk' | 'energy_declaration' | 'other';
+export type ApiAttachmentCategory =
+  | 'energy-declaration-ovk'
+  | 'property-info'
+  | 'other';
 
 export type ApiAttachmentPatchRequest = {
   /**
@@ -99,7 +101,6 @@ export type ApiDeviceDBRequest = {
   organization_id: string;
   type: ApiDeviceType;
   state: ApiDeviceState;
-  location_id?: string;
 } & ApiDeviceRequest;
 
 export type ApiDeviceEventQueryParams = {
@@ -236,7 +237,6 @@ export type ApiError = {
 };
 
 export type ApiLocationRequest = ApiAddress & {
-  organization_id: string;
   /**
    * Provider ID for this location
    */
@@ -315,6 +315,7 @@ export type ApiStringEntity = {
    */
   id: string;
   meta: ApiMetadata;
+  organization_id: string;
 };
 
 export type ApiTenant = {
@@ -347,6 +348,7 @@ export type ApiUuidEntity = {
    */
   id: string;
   meta: ApiMetadata;
+  organization_id: string;
 };
 
 export type ApiValidationError = ApiError & {
