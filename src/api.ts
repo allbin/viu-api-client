@@ -101,6 +101,14 @@ export type ApiDeviceDBRequest = {
   organization_id: string;
   type: ApiDeviceType;
   state: ApiDeviceState;
+  /**
+   * Specfic device placement within the location
+   */
+  placement?: string;
+  /**
+   * References an ApiLocation where the device is installed
+   */
+  location_id?: string;
 } & ApiDeviceRequest;
 
 export type ApiDeviceEventQueryParams = {
