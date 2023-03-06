@@ -283,6 +283,16 @@ export type ApiMetadata = {
 
 export type ApiOrganizationRequest = {
   name: string;
+  /**
+   * List of types which are automatically synchronized with an external API, and should therefore not be manually edited.
+   */
+  synchronized_types: Array<
+    | 'locations'
+    | 'announcemnts'
+    | 'apartments'
+    | 'attachments'
+    | 'embedded-urls'
+  >;
 };
 
 export type ApiOrganization = ApiStringEntity & ApiOrganizationRequest;
@@ -308,11 +318,26 @@ export type ApiParameterValidationError = {
 };
 
 export type ApiPermission =
+  | 'announcements:create'
+  | 'announcements:update'
+  | 'announcements:delete'
+  | 'apartments:create'
+  | 'apartments:update'
+  | 'apartments:delete'
+  | 'attachments:create'
+  | 'attachments:update'
+  | 'attachments:delete'
   | 'devices:create'
   | 'devices:update'
   | 'devices:delete'
   | 'devices:factory-reset'
   | 'devices:uninstall'
+  | 'embedded-urls:create'
+  | 'embedded-urls:update'
+  | 'embedded-urls:delete'
+  | 'locations:create'
+  | 'locations:update'
+  | 'locations:delete'
   | 'users:read-all';
 
 export type ApiProfile = Record<string, any>;

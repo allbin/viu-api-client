@@ -2,12 +2,16 @@ import call from '../call';
 
 import type { ViuApiClientOptions } from '../options';
 import type {
+  ApiOrganization,
   ApiDevice,
   ApiLocation,
   ApiDeviceInstallationRequest,
 } from '../api';
 
 interface PublicOperations {
+  organizations: {
+    get: (id: string) => Promise<ApiOrganization>;
+  };
   devices: {
     get: (id: string) => Promise<ApiDevice>;
     getConfig: <T>(id: string) => Promise<T>;
@@ -22,6 +26,17 @@ interface PublicOperations {
 export const publicOperations = (
   opts: ViuApiClientOptions,
 ): PublicOperations => ({
+  organizations: {
+    get: async (id) =>
+      await call<undefined, ApiOrganization>(
+        'GET',
+        `/public/organizations/${id}`,
+        {
+          ...opts,
+          noAuth: true,
+        },
+      ),
+  },
   devices: {
     get: async (id) =>
       await call<undefined, ApiDevice>('GET', `/public/devices/${id}`, {
