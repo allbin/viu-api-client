@@ -1,12 +1,26 @@
 import call from '../call';
+import { DateTime } from 'luxon';
 
 import type { ViuApiClientOptions } from '../options';
 
-import type { ApiAttachment, ApiAttachmentPatchRequest } from '../api';
+import type {
+  ApiAttachment,
+  ApiAttachmentPatchRequest,
+  ApiAttachmentCategory,
+} from '../api';
+
+export interface ApiClientUploadFileMetadata {
+  category: ApiAttachmentCategory;
+  active_from: DateTime | undefined;
+  active_to: DateTime | undefined;
+}
+export interface ApiClientUploadFile extends ApiClientUploadFileMetadata {
+  file: File;
+}
 
 interface AttachmentOperations {
   list: (location_id?: string) => Promise<ApiAttachment[]>;
-  create: (file: File) => Promise<ApiAttachment>;
+  create: (files: ApiClientUploadFile[]) => Promise<ApiAttachment>;
   patch: (
     id: string,
     attachment: ApiAttachmentPatchRequest,
@@ -22,9 +36,26 @@ export const attachmentOperations = (
       ...opts,
       ...(location_id ? { params: { location_id } } : {}),
     }),
-  create: async (file) => {
+  create: async (files) => {
     const data = new FormData();
-    data.append('file', file);
+    const metadata = files.reduce<Record<string, ApiClientUploadFileMetadata>>(
+      (meta, uf) => {
+        const { category, active_from, active_to } = uf;
+        meta[uf.file.name] = {
+          category,
+          active_from,
+          active_to,
+        };
+        return meta;
+      },
+      {},
+    );
+
+    data.append('metadata', JSON.stringify(metadata));
+    for (const uf of files) {
+      data.append('files', uf.file);
+    }
+
     return await call<undefined, ApiAttachment>('POST', `/attachments`, {
       ...opts,
       form: data,
