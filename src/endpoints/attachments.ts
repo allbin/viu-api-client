@@ -20,7 +20,7 @@ export interface ApiClientUploadFile extends ApiClientUploadFileMetadata {
 
 interface AttachmentOperations {
   list: (location_id?: string) => Promise<ApiAttachment[]>;
-  create: (files: ApiClientUploadFile[]) => Promise<ApiAttachment>;
+  create: (files: ApiClientUploadFile[]) => Promise<ApiAttachment[]>;
   patch: (
     id: string,
     attachment: ApiAttachmentPatchRequest,
@@ -56,7 +56,7 @@ export const attachmentOperations = (
       data.append('files', uf.file);
     }
 
-    return await call<undefined, ApiAttachment>('POST', `/attachments`, {
+    return await call<undefined, ApiAttachment[]>('POST', `/attachments`, {
       ...opts,
       form: data,
     });
