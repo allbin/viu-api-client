@@ -283,16 +283,7 @@ export type ApiMetadata = {
 
 export type ApiOrganizationRequest = {
   name: string;
-  /**
-   * List of types which are automatically synchronized with an external API, and should therefore not be manually edited.
-   */
-  synchronized_types: Array<
-    | 'locations'
-    | 'announcemnts'
-    | 'apartments'
-    | 'attachments'
-    | 'embedded-urls'
-  >;
+  synchronized_types: ApiSynchronizedTypes;
 };
 
 export type ApiOrganization = ApiStringEntity & ApiOrganizationRequest;
@@ -349,6 +340,17 @@ export type ApiStringEntity = {
   id: string;
   meta: ApiMetadata;
   organization_id: string;
+};
+
+/**
+ * Types which are automatically synchronized with an external API, and are therefore not manually editable.
+ */
+export type ApiSynchronizedTypes = {
+  announcements: boolean;
+  apartments: boolean;
+  attachments: boolean;
+  embedded_urls: boolean;
+  locations: boolean;
 };
 
 export type ApiTenant = {
