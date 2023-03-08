@@ -346,7 +346,7 @@ export type ApiSynchronizedType =
   | 'announcements'
   | 'apartments'
   | 'attachments'
-  | 'embedded_urls'
+  | 'embedded-urls'
   | 'locations';
 
 export type ApiTenant = {
