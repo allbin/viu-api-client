@@ -38,20 +38,16 @@ export const attachmentOperations = (
     }),
   create: async (files) => {
     const data = new FormData();
-    const metadata = files.reduce<Record<string, ApiClientUploadFileMetadata>>(
-      (meta, uf) => {
-        const { category, active_from, active_to } = uf;
-        meta[uf.file.name] = {
-          category,
-          active_from,
-          active_to,
-        };
-        return meta;
-      },
-      {},
-    );
+    const attachments = files.map((uf) => {
+      const { category, active_from, active_to } = uf;
+      return {
+        category,
+        active_from,
+        active_to,
+      };
+    });
 
-    data.append('metadata', JSON.stringify(metadata));
+    data.append('attachments', JSON.stringify(attachments));
     for (const uf of files) {
       data.append('files', uf.file);
     }

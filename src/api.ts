@@ -43,15 +43,12 @@ export type ApiAttachmentCategory =
   | 'property-info'
   | 'other';
 
-export type ApiAttachmentPatchRequest = {
+export type ApiAttachmentPatchRequest = ApiAttachmentUploadMetadata & {
   /**
    * Displayed file name
    */
   name: string;
-  category: ApiAttachmentCategory;
   location_ids: Array<string>;
-  active_from?: string;
-  active_to?: string;
 };
 
 export type ApiAttachmentRequest = ApiAttachmentPatchRequest & {
@@ -66,6 +63,12 @@ export type ApiAttachmentRequest = ApiAttachmentPatchRequest & {
 };
 
 export type ApiAttachment = ApiUuidEntity & ApiAttachmentRequest;
+
+export type ApiAttachmentUploadMetadata = {
+  category: ApiAttachmentCategory;
+  active_from?: string;
+  active_to?: string;
+};
 
 export type ApiCoordinate = {
   /**
@@ -283,7 +286,7 @@ export type ApiMetadata = {
 
 export type ApiOrganizationRequest = {
   name: string;
-  synchronized_types: Array<ApiSynchronizedType>;
+  synchronized_types: ApiSynchronizedTypes;
 };
 
 export type ApiOrganization = ApiStringEntity & ApiOrganizationRequest;
@@ -342,12 +345,16 @@ export type ApiStringEntity = {
   organization_id: string;
 };
 
-export type ApiSynchronizedType =
-  | 'announcements'
-  | 'apartments'
-  | 'attachments'
-  | 'embedded-urls'
-  | 'locations';
+/**
+ * Types which are automatically synchronized with an external API, and are therefore not manually editable.
+ */
+export type ApiSynchronizedTypes = {
+  announcements: boolean;
+  apartments: boolean;
+  attachments: boolean;
+  embedded_urls: boolean;
+  locations: boolean;
+};
 
 export type ApiTenant = {
   id: string;
