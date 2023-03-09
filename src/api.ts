@@ -104,14 +104,6 @@ export type ApiDeviceDBRequest = {
   organization_id: string;
   type: ApiDeviceType;
   state: ApiDeviceState;
-  /**
-   * Specfic device placement within the location
-   */
-  placement?: string;
-  /**
-   * References an ApiLocation where the device is installed
-   */
-  location_id?: string;
 } & ApiDeviceRequest;
 
 export type ApiDeviceEventQueryParams = {
@@ -185,7 +177,7 @@ export type ApiDeviceRebootEvent = {
 
 export type ApiDeviceRequest = {
   /**
-   * References an ApiLocation object
+   * References an ApiLocation object where the device is installed
    */
   location_id?: string;
   /**
@@ -286,7 +278,7 @@ export type ApiMetadata = {
 
 export type ApiOrganizationRequest = {
   name: string;
-  synchronized_types: ApiSynchronizedTypes;
+  synchronized_types: Array<ApiSynchronizedType>;
 };
 
 export type ApiOrganization = ApiStringEntity & ApiOrganizationRequest;
@@ -345,16 +337,12 @@ export type ApiStringEntity = {
   organization_id: string;
 };
 
-/**
- * Types which are automatically synchronized with an external API, and are therefore not manually editable.
- */
-export type ApiSynchronizedTypes = {
-  announcements: boolean;
-  apartments: boolean;
-  attachments: boolean;
-  embedded_urls: boolean;
-  locations: boolean;
-};
+export type ApiSynchronizedType =
+  | 'announcements'
+  | 'apartments'
+  | 'attachments'
+  | 'embedded-urls'
+  | 'locations';
 
 export type ApiTenant = {
   id: string;
