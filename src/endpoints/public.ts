@@ -3,6 +3,9 @@ import call from '../call';
 import type { ViuApiClientOptions } from '../options';
 import type {
   ApiOrganization,
+  ApiAnnouncement,
+  ApiApartment,
+  ApiEmbeddedUrl,
   ApiDevice,
   ApiLocation,
   ApiDeviceInstallationRequest,
@@ -16,6 +19,9 @@ interface PublicOperations {
     get: (id: string) => Promise<ApiDevice>;
     getConfig: <T>(id: string) => Promise<T>;
     getLocation: (id: string) => Promise<ApiLocation>;
+    getAnnouncements: (id: string) => Promise<ApiAnnouncement[]>;
+    getApartments: (id: string) => Promise<ApiApartment[]>;
+    getEmbeddedUrls: (id: string) => Promise<ApiEmbeddedUrl[]>;
     install: (
       id: string,
       data: ApiDeviceInstallationRequest,
@@ -52,6 +58,33 @@ export const publicOperations = (
       await call<undefined, ApiLocation>(
         'GET',
         `/public/devices/${id}/location`,
+        {
+          ...opts,
+          noAuth: true,
+        },
+      ),
+    getApartments: async (id: string) =>
+      await call<undefined, ApiApartment[]>(
+        'GET',
+        `public/devices/${id}/apartments`,
+        {
+          ...opts,
+          noAuth: true,
+        },
+      ),
+    getAnnouncements: async (id: string) =>
+      await call<undefined, ApiAnnouncement[]>(
+        'GET',
+        `/public/devices/${id}/announcements`,
+        {
+          ...opts,
+          noAuth: true,
+        },
+      ),
+    getEmbeddedUrls: async (id: string) =>
+      await call<undefined, ApiEmbeddedUrl[]>(
+        'GET',
+        `/public/devices/${id}/embedded-urls`,
         {
           ...opts,
           noAuth: true,
