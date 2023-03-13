@@ -5,6 +5,7 @@ import type {
   ApiOrganization,
   ApiAnnouncement,
   ApiApartment,
+  ApiAttachment,
   ApiEmbeddedUrl,
   ApiDevice,
   ApiLocation,
@@ -21,6 +22,7 @@ interface PublicOperations {
     getLocation: (id: string) => Promise<ApiLocation>;
     getAnnouncements: (id: string) => Promise<ApiAnnouncement[]>;
     getApartments: (id: string) => Promise<ApiApartment[]>;
+    getAttachments: (id: string) => Promise<ApiAttachment[]>;
     getEmbeddedUrls: (id: string) => Promise<ApiEmbeddedUrl[]>;
     install: (
       id: string,
@@ -76,6 +78,15 @@ export const publicOperations = (
       await call<undefined, ApiAnnouncement[]>(
         'GET',
         `/public/devices/${id}/announcements`,
+        {
+          ...opts,
+          noAuth: true,
+        },
+      ),
+    getAttachments: async (id: string) =>
+      await call<undefined, ApiAttachment[]>(
+        'GET',
+        `/public/devices/${id}/attachments`,
         {
           ...opts,
           noAuth: true,
