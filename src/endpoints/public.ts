@@ -15,6 +15,7 @@ import type {
 interface PublicOperations {
   organizations: {
     get: (id: string) => Promise<ApiOrganization>;
+    getLocations: (id: string) => Promise<ApiLocation[]>;
   };
   devices: {
     get: (id: string) => Promise<ApiDevice>;
@@ -39,6 +40,15 @@ export const publicOperations = (
       await call<undefined, ApiOrganization>(
         'GET',
         `/public/organizations/${id}`,
+        {
+          ...opts,
+          noAuth: true,
+        },
+      ),
+    getLocations: async (id) =>
+      await call<undefined, ApiLocation[]>(
+        'GET',
+        `/public/organizations/${id}/locations`,
         {
           ...opts,
           noAuth: true,
