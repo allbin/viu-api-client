@@ -7,6 +7,15 @@ export type ApiAddress = {
   city: string;
 };
 
+export type ApiAnnouncementLinkedEvent = {
+  type: 'announcement_linked';
+  data: ApiAnnouncementLinkEventData;
+};
+
+export type ApiAnnouncementLinkEventData = {
+  announcement_id: string;
+};
+
 export type ApiAnnouncementRequest = {
   message: string;
   location_ids: Array<string>;
@@ -15,6 +24,16 @@ export type ApiAnnouncementRequest = {
 };
 
 export type ApiAnnouncement = ApiUuidEntity & ApiAnnouncementRequest;
+
+export type ApiAnnouncementUnlinkedEvent = {
+  type: 'announcement_unlinked';
+  data: ApiAnnouncementLinkEventData;
+};
+
+export type ApiApartmentCreatedEvent = {
+  type: 'apartment_created';
+  data: ApiApartmentRequest;
+};
 
 export type ApiApartmentRequest = {
   /**
@@ -38,10 +57,24 @@ export type ApiApartmentRequest = {
 
 export type ApiApartment = ApiUuidEntity & ApiApartmentRequest;
 
+export type ApiApartmentUpdatedEvent = {
+  type: 'apartment_updated';
+  data: ApiApartmentRequest;
+};
+
 export type ApiAttachmentCategory =
   | 'energy-declaration-ovk'
   | 'property-info'
   | 'other';
+
+export type ApiAttachmentLinkedEvent = {
+  type: 'attachment_linked';
+  data: ApiAttachmentLinkEventData;
+};
+
+export type ApiAttachmentLinkEventData = {
+  attachment_id: string;
+};
 
 export type ApiAttachmentPatchRequest = ApiAttachmentUploadMetadata & {
   /**
@@ -63,6 +96,11 @@ export type ApiAttachmentRequest = ApiAttachmentPatchRequest & {
 };
 
 export type ApiAttachment = ApiUuidEntity & ApiAttachmentRequest;
+
+export type ApiAttachmentUnlinkedEvent = {
+  type: 'attachment_unlinked';
+  data: ApiAttachmentLinkEventData;
+};
 
 export type ApiAttachmentUploadMetadata = {
   category: ApiAttachmentCategory;
@@ -222,6 +260,15 @@ export type ApiDeviceUninstallEvent = {
   type: 'uninstall';
 };
 
+export type ApiEmbeddedUrlLinkedEvent = {
+  type: 'embedded_url_linked';
+  data: ApiEmbeddedUrlLinkEventData;
+};
+
+export type ApiEmbeddedUrlLinkEventData = {
+  embedded_url_id: string;
+};
+
 export type ApiEmbeddedUrlRequest = {
   name: string;
   url: string;
@@ -232,12 +279,62 @@ export type ApiEmbeddedUrlRequest = {
 
 export type ApiEmbeddedUrl = ApiUuidEntity & ApiEmbeddedUrlRequest;
 
+export type ApiEmbeddedUrlUnlinkedEvent = {
+  type: 'embedded_url_unlinked';
+  data: ApiEmbeddedUrlLinkEventData;
+};
+
 export type ApiError = {
   /**
    * Error message
    */
   message: string;
 };
+
+export type ApiLocationCreatedEvent = {
+  type: 'location_created';
+  data: ApiLocationRequest;
+};
+
+export type ApiLocationDeletedEvent = {
+  type: 'location_deleted';
+};
+
+export type ApiLocationDeviceEventData = {
+  device_id: string;
+};
+
+export type ApiLocationDeviceInstalledEvent = {
+  type: 'device_installed';
+  data: ApiLocationDeviceEventData;
+};
+
+export type ApiLocationDeviceUninstalledEvent = {
+  type: 'device_uninstalled';
+  data: ApiLocationDeviceEventData;
+};
+
+export type ApiLocationEventRequest = {
+  location_id: string;
+} & (
+  | ApiLocationDeviceInstalledEvent
+  | ApiLocationDeviceUninstalledEvent
+  | ApiLocationCreatedEvent
+  | ApiLocationUpdatedEvent
+  | ApiLocationDeletedEvent
+  | ApiApartmentCreatedEvent
+  | ApiApartmentUpdatedEvent
+  | ApiAnnouncementLinkedEvent
+  | ApiAnnouncementUnlinkedEvent
+  | ApiAttachmentLinkedEvent
+  | ApiAttachmentUnlinkedEvent
+  | ApiEmbeddedUrlLinkedEvent
+  | ApiEmbeddedUrlUnlinkedEvent
+  | ApiTenantMovedInEvent
+  | ApiTenantMovedOutEvent
+);
+
+export type ApiLocationEvent = ApiStringEntity & ApiLocationEventRequest;
 
 export type ApiLocationRequest = ApiAddress & {
   /**
@@ -252,6 +349,11 @@ export type ApiLocationRequest = ApiAddress & {
 };
 
 export type ApiLocation = ApiUuidEntity & ApiLocationRequest;
+
+export type ApiLocationUpdatedEvent = {
+  type: 'location_updated';
+  data: ApiLocationRequest;
+};
 
 export type ApiMetadata = {
   /**
@@ -343,6 +445,20 @@ export type ApiSynchronizedType =
   | 'attachments'
   | 'embedded-urls'
   | 'locations';
+
+export type ApiTenantMovedEventData = {
+  name: string;
+};
+
+export type ApiTenantMovedInEvent = {
+  type: 'tenant_moved_in';
+  data: ApiTenantMovedEventData;
+};
+
+export type ApiTenantMovedOutEvent = {
+  type: 'tenant_moved_out';
+  data: ApiTenantMovedEventData;
+};
 
 export type ApiTenant = {
   id: string;
