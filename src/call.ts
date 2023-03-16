@@ -47,7 +47,9 @@ const call = async <R, T>(
     req.headers['content-type'] = 'application/json';
   }
 
-  return await axios.request<T>({ url, ...req }).then((r) => r.data);
+  return await (opts.axios || axios)
+    .request<T>({ url, ...req })
+    .then((r) => r.data);
 };
 
 export default call;
