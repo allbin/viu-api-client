@@ -180,12 +180,17 @@ export type ApiDeviceEventRequest = {
   | ApiDeviceCreationEvent
   | ApiDeviceInstallationEvent
   | ApiDeviceUninstallEvent
+  | ApiDeviceFactoryResetEvent
 );
 
 export type ApiDeviceEvent = ApiStringEntity &
   ApiDeviceEventRequest & {
     organization_id: string;
   };
+
+export type ApiDeviceFactoryResetEvent = {
+  type: 'factory-reset';
+};
 
 export type ApiDeviceHardwareStatusChangeEvent = {
   type: 'status-change-hardware';
@@ -296,6 +301,13 @@ export type ApiLocationCreatedEvent = {
   data: ApiLocationRequest;
 };
 
+export type ApiLocationDBRequest = ApiLocationRequest & {
+  /**
+   * Provider ID for this location
+   */
+  source_id?: string;
+};
+
 export type ApiLocationDeletedEvent = {
   type: 'location_deleted';
 };
@@ -338,17 +350,13 @@ export type ApiLocationEvent = ApiStringEntity & ApiLocationEventRequest;
 
 export type ApiLocationRequest = ApiAddress & {
   /**
-   * Provider ID for this location
-   */
-  source_id?: string;
-  /**
    * Property site name
    */
   site_name?: string;
   coordinate?: ApiCoordinate;
 };
 
-export type ApiLocation = ApiUuidEntity & ApiLocationRequest;
+export type ApiLocation = ApiUuidEntity & ApiLocationDBRequest;
 
 export type ApiLocationUpdatedEvent = {
   type: 'location_updated';
