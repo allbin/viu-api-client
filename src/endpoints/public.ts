@@ -30,6 +30,9 @@ interface PublicOperations {
       data: ApiDeviceInstallationRequest,
     ) => Promise<ApiDevice>;
   };
+  // nametags: {};
+  // tags: {};
+  // locations: {};
 }
 
 export const publicOperations = (

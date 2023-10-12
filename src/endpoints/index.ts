@@ -7,4 +7,5 @@ export * from './locations';
 export * from './organizations';
 export * from './profile';
 export * from './public';
+export * from './tags';
 export * from './users';
