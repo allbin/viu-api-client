@@ -7,7 +7,7 @@ import type {
   ApiLocationRequest,
   ApiApartment,
   ApiApartmentRequest,
-} from '../api';
+} from '@allbin/viu-types';
 
 interface LocationOperations {
   list: () => Promise<ApiLocation[]>;

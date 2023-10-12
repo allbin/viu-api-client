@@ -1,7 +1,7 @@
 import call from '../call';
 
 import type { ViuApiClientOptions } from '../options';
-import type { ApiUser } from '../api';
+import type { ApiUser } from '@allbin/viu-types';
 
 interface UserOperations {
   list: () => Promise<ApiUser[]>;

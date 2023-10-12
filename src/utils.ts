@@ -1,4 +1,4 @@
-import { ApiDeviceType } from './api';
+import { ApiDeviceType } from '@allbin/viu-types';
 
 export const makeDeviceId = (
   type: ApiDeviceType,

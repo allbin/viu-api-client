@@ -1,7 +1,10 @@
 import call from '../call';
 
 import type { ViuApiClientOptions } from '../options';
-import type { ApiDeviceEvent, ApiDeviceEventQueryParams } from '../api';
+import type {
+  ApiDeviceEvent,
+  ApiDeviceEventQueryParams,
+} from '@allbin/viu-types';
 
 interface DeviceEventOperations {
   query: (params: ApiDeviceEventQueryParams) => Promise<ApiDeviceEvent[]>;

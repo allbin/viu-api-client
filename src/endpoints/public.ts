@@ -10,7 +10,7 @@ import type {
   ApiDevice,
   ApiLocation,
   ApiDeviceInstallationRequest,
-} from '../api';
+} from '@allbin/viu-types';
 
 interface PublicOperations {
   organizations: {

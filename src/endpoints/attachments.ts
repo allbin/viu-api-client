@@ -7,7 +7,7 @@ import type {
   ApiAttachment,
   ApiAttachmentPatchRequest,
   ApiAttachmentCategory,
-} from '../api';
+} from '@allbin/viu-types';
 
 export interface ApiClientUploadFileMetadata {
   category: ApiAttachmentCategory;

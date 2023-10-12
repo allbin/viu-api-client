@@ -42,4 +42,4 @@ const ViuApiClient = (opts: ViuApiClientOptions): IViuApiClient => ({
 export { ViuApiClient, IViuApiClient };
 export { makeDeviceId } from './utils';
 
-export * from './api';
+export * from '@allbin/viu-types';

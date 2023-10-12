@@ -2,7 +2,7 @@ import call from '../call';
 
 import type { ViuApiClientOptions } from '../options';
 
-import type { ApiEmbeddedUrl, ApiEmbeddedUrlRequest } from '../api';
+import type { ApiEmbeddedUrl, ApiEmbeddedUrlRequest } from '@allbin/viu-types';
 
 interface EmbeddedUrlOperations {
   list: (location_id?: string) => Promise<ApiEmbeddedUrl[]>;
