@@ -10,6 +10,8 @@ import type {
   ApiDevice,
   ApiLocation,
   ApiDeviceInstallationRequest,
+  ApiNameTagInstallationRequest,
+  ApiPublicApartment,
 } from '@allbin/viu-types';
 
 interface PublicOperations {
@@ -30,9 +32,18 @@ interface PublicOperations {
       data: ApiDeviceInstallationRequest,
     ) => Promise<ApiDevice>;
   };
-  // nametags: {};
-  // tags: {};
-  // locations: {};
+  nametags: {
+    install: (
+      id: string,
+      data: ApiNameTagInstallationRequest,
+    ) => Promise<Record<string, never>>;
+  };
+  tags: {
+    getLocations: (id: string) => Promise<ApiLocation[]>;
+  };
+  locations: {
+    getApartments: (id: string) => Promise<ApiPublicApartment[]>;
+  };
 }
 
 export const publicOperations = (
@@ -121,6 +132,40 @@ export const publicOperations = (
         {
           ...opts,
           body: data,
+          noAuth: true,
+        },
+      ),
+  },
+  nametags: {
+    install: async (id, data) =>
+      await call<ApiNameTagInstallationRequest, Record<string, never>>(
+        'PATCH',
+        `/public/nametags/${id}/install`,
+        {
+          ...opts,
+          body: data,
+          noAuth: true,
+        },
+      ),
+  },
+  tags: {
+    getLocations: async (id) =>
+      await call<undefined, ApiLocation[]>(
+        'GET',
+        `/public/tags/${id}/locations`,
+        {
+          ...opts,
+          noAuth: true,
+        },
+      ),
+  },
+  locations: {
+    getApartments: async (id) =>
+      await call<undefined, ApiPublicApartment[]>(
+        'GET',
+        `/public/locations/${id}/apartments`,
+        {
+          ...opts,
           noAuth: true,
         },
       ),
