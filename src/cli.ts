@@ -1,3 +1,4 @@
+import { ApiNameTag } from '@allbin/viu-types';
 import axios from 'axios';
 import jwt from 'jsonwebtoken';
 import { DateTime } from 'luxon';
@@ -43,7 +44,7 @@ const getToken = async (): Promise<string> => {
   const response = await axios.post<{ access_token: string }>(
     'https://allbin.eu.auth0.com/oauth/token',
     {
-      audience: 'https://api.viu.dev.allbin.se',
+      audience: 'https://api.viu-dms.dev.allbin.se',
       grant_type: 'client_credentials',
       client_id: 'vCEC4uiW9ztEeoBwf7bLyP1iquZjXppX',
       client_secret: process.env.CLIENT_SECRET,
@@ -60,6 +61,34 @@ void (async () => {
       baseUrl: 'http://localhost:50000',
       token: getToken,
     });
+
+    const tags = await client.tags.list();
+    console.log(tags);
+    if (!tags || tags.length === 0) {
+      console.log('no existing tags. exiting...');
+      process.exit(0);
+    }
+
+    const tag_locations = await client.public.tags.getLocations(tags[0].id);
+    console.log(tag_locations);
+    if (!tag_locations || tag_locations.length === 0) {
+      console.log('no existing locations. exiting...');
+      process.exit(0);
+    }
+
+    const apartments = await client.public.locations.getApartments(
+      tag_locations[0].id,
+    );
+    console.log(apartments);
+    if (!apartments || apartments.length === 0) {
+      console.log('no existing apartments. exiting...');
+      process.exit(0);
+    }
+
+    const install_tag = await client.public.nametags.install(tags[0].id, {
+      apartment_ref: (tags[0] as ApiNameTag).apartment_ref,
+    });
+    console.log('installed tag', install_tag);
 
     const devices = await client.devices.list();
     console.log(devices);

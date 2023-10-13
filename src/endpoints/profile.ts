@@ -2,7 +2,7 @@ import call from '../call';
 
 import type { ViuApiClientOptions } from '../options';
 
-import type { ApiProfile } from '../api';
+import type { ApiProfile } from '@allbin/viu-types';
 
 interface ProfileOperations {
   get: () => Promise<ApiProfile>;

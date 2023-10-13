@@ -1,7 +1,11 @@
 import call from '../call';
 
 import type { ViuApiClientOptions } from '../options';
-import type { ApiDevice, ApiDeviceDBRequest, ApiDeviceRequest } from '../api';
+import type {
+  ApiDevice,
+  ApiDeviceDBRequest,
+  ApiDeviceRequest,
+} from '@allbin/viu-types';
 
 interface DeviceOperations {
   list: (location_id?: string) => Promise<ApiDevice[]>;

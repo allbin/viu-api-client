@@ -10,6 +10,7 @@ import {
   organizationOperations,
   profileOperations,
   publicOperations,
+  tagOperations,
   userOperations,
 } from './endpoints';
 
@@ -23,6 +24,7 @@ interface IViuApiClient {
   locations: ReturnType<typeof locationOperations>;
   organizations: ReturnType<typeof organizationOperations>;
   profile: ReturnType<typeof profileOperations>;
+  tags: ReturnType<typeof tagOperations>;
   users: ReturnType<typeof userOperations>;
 }
 
@@ -36,10 +38,11 @@ const ViuApiClient = (opts: ViuApiClientOptions): IViuApiClient => ({
   organizations: organizationOperations(opts),
   profile: profileOperations(opts),
   public: publicOperations(opts),
+  tags: tagOperations(opts),
   users: userOperations(opts),
 });
 
 export { ViuApiClient, IViuApiClient };
 export { makeDeviceId } from './utils';
 
-export * from './api';
+export * from '@allbin/viu-types';

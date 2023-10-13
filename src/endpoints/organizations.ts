@@ -1,7 +1,7 @@
 import call from '../call';
 
 import type { ViuApiClientOptions } from '../options';
-import type { ApiOrganization } from '../api';
+import type { ApiOrganization } from '@allbin/viu-types';
 
 interface OrganizationOperations {
   list: () => Promise<ApiOrganization[]>;

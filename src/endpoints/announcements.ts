@@ -2,7 +2,10 @@ import call from '../call';
 
 import type { ViuApiClientOptions } from '../options';
 
-import type { ApiAnnouncement, ApiAnnouncementRequest } from '../api';
+import type {
+  ApiAnnouncement,
+  ApiAnnouncementRequest,
+} from '@allbin/viu-types';
 
 interface AnnouncementOperations {
   list: (location_id?: string) => Promise<ApiAnnouncement[]>;
