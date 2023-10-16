@@ -33,10 +33,7 @@ interface PublicOperations {
     ) => Promise<ApiDevice>;
   };
   nametags: {
-    install: (
-      id: string,
-      data: ApiNameTagInstallationRequest,
-    ) => Promise<Record<string, never>>;
+    install: (id: string, data: ApiNameTagInstallationRequest) => Promise<void>;
   };
   tags: {
     getLocations: (id: string) => Promise<ApiLocation[]>;
@@ -138,7 +135,7 @@ export const publicOperations = (
   },
   nametags: {
     install: async (id, data) =>
-      await call<ApiNameTagInstallationRequest, Record<string, never>>(
+      await call<ApiNameTagInstallationRequest, void>(
         'PATCH',
         `/public/nametags/${id}/install`,
         {
