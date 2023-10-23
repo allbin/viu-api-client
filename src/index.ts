@@ -10,6 +10,7 @@ import {
   organizationOperations,
   profileOperations,
   publicOperations,
+  syncOperations,
   tagOperations,
   userOperations,
 } from './endpoints';
@@ -24,6 +25,7 @@ interface IViuApiClient {
   locations: ReturnType<typeof locationOperations>;
   organizations: ReturnType<typeof organizationOperations>;
   profile: ReturnType<typeof profileOperations>;
+  sync: ReturnType<typeof syncOperations>;
   tags: ReturnType<typeof tagOperations>;
   users: ReturnType<typeof userOperations>;
 }
@@ -38,6 +40,7 @@ const ViuApiClient = (opts: ViuApiClientOptions): IViuApiClient => ({
   organizations: organizationOperations(opts),
   profile: profileOperations(opts),
   public: publicOperations(opts),
+  sync: syncOperations(opts),
   tags: tagOperations(opts),
   users: userOperations(opts),
 });
