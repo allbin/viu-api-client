@@ -12,6 +12,7 @@ import type {
   ApiDeviceInstallationRequest,
   ApiNameTagInstallationRequest,
   ApiPublicApartment,
+  ApiResult,
 } from '@allbin/viu-types';
 
 interface PublicOperations {
@@ -34,6 +35,7 @@ interface PublicOperations {
   };
   nametags: {
     install: (id: string, data: ApiNameTagInstallationRequest) => Promise<void>;
+    isInstalled: (id: string) => Promise<boolean>;
   };
   tags: {
     getLocations: (id: string) => Promise<ApiLocation[]>;
@@ -144,6 +146,18 @@ export const publicOperations = (
           noAuth: true,
         },
       ),
+    isInstalled: async (id) => {
+      return (
+        await call<undefined, ApiResult>(
+          'GET',
+          `/public/nametags/${id}/is-installed`,
+          {
+            ...opts,
+            noAuth: true,
+          },
+        )
+      ).result;
+    },
   },
   tags: {
     getLocations: async (id) =>
