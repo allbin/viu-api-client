@@ -13,6 +13,7 @@ import type {
   ApiNameTagInstallationRequest,
   ApiPublicApartment,
   ApiResult,
+  ApiGoogleCalendarToken,
 } from '@allbin/viu-types';
 
 interface PublicOperations {
@@ -42,6 +43,9 @@ interface PublicOperations {
   };
   locations: {
     getApartments: (id: string) => Promise<ApiPublicApartment[]>;
+  };
+  google_calendar_tokens: {
+    upsert: (data: ApiGoogleCalendarToken) => Promise<void>;
   };
 }
 
@@ -177,6 +181,18 @@ export const publicOperations = (
         `/public/locations/${id}/apartments`,
         {
           ...opts,
+          noAuth: true,
+        },
+      ),
+  },
+  google_calendar_tokens: {
+    upsert: async (data) =>
+      await call<ApiGoogleCalendarToken, void>(
+        'PUT',
+        `/public/google-calendar-tokens`,
+        {
+          ...opts,
+          body: data,
           noAuth: true,
         },
       ),
