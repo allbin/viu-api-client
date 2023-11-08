@@ -38,6 +38,9 @@ interface PublicOperations {
     install: (id: string, data: ApiNameTagInstallationRequest) => Promise<void>;
     isInstalled: (id: string) => Promise<boolean>;
   };
+  bookingtags: {
+    isInstalled: (id: string) => Promise<boolean>;
+  };
   tags: {
     getLocations: (id: string) => Promise<ApiLocation[]>;
   };
@@ -155,6 +158,20 @@ export const publicOperations = (
         await call<undefined, ApiResult>(
           'GET',
           `/public/nametags/${id}/is-installed`,
+          {
+            ...opts,
+            noAuth: true,
+          },
+        )
+      ).result;
+    },
+  },
+  bookingtags: {
+    isInstalled: async (id) => {
+      return (
+        await call<undefined, ApiResult>(
+          'GET',
+          `/public/bookingtags/${id}/is-installed`,
           {
             ...opts,
             noAuth: true,
