@@ -40,6 +40,7 @@ interface PublicOperations {
   };
   bookingtags: {
     isInstalled: (id: string) => Promise<boolean>;
+    getGoogleCalendarUsers: (id: string) => Promise<string[]>;
   };
   tags: {
     getLocations: (id: string) => Promise<ApiLocation[]>;
@@ -179,6 +180,15 @@ export const publicOperations = (
         )
       ).result;
     },
+    getGoogleCalendarUsers: async (id) =>
+      await call<undefined, string[]>(
+        'GET',
+        `/public/bookingtags/${id}/google-calendar-users`,
+        {
+          ...opts,
+          noAuth: true,
+        },
+      ),
   },
   tags: {
     getLocations: async (id) =>
