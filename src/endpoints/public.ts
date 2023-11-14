@@ -36,14 +36,13 @@ interface PublicOperations {
   };
   nametags: {
     install: (id: string, data: ApiNameTagInstallationRequest) => Promise<void>;
-    isInstalled: (id: string) => Promise<boolean>;
   };
   bookingtags: {
-    isInstalled: (id: string) => Promise<boolean>;
     getGoogleCalendarUsers: (id: string) => Promise<string[]>;
   };
   tags: {
     getLocations: (id: string) => Promise<ApiLocation[]>;
+    isInstalled: (id: string) => Promise<boolean>;
   };
   locations: {
     getApartments: (id: string) => Promise<ApiPublicApartment[]>;
@@ -154,32 +153,8 @@ export const publicOperations = (
           noAuth: true,
         },
       ),
-    isInstalled: async (id) => {
-      return (
-        await call<undefined, ApiResult>(
-          'GET',
-          `/public/nametags/${id}/is-installed`,
-          {
-            ...opts,
-            noAuth: true,
-          },
-        )
-      ).result;
-    },
   },
   bookingtags: {
-    isInstalled: async (id) => {
-      return (
-        await call<undefined, ApiResult>(
-          'GET',
-          `/public/bookingtags/${id}/is-installed`,
-          {
-            ...opts,
-            noAuth: true,
-          },
-        )
-      ).result;
-    },
     getGoogleCalendarUsers: async (id) =>
       await call<undefined, string[]>(
         'GET',
@@ -200,6 +175,18 @@ export const publicOperations = (
           noAuth: true,
         },
       ),
+    isInstalled: async (id) => {
+      return (
+        await call<undefined, ApiResult>(
+          'GET',
+          `/public/tags/${id}/is-installed`,
+          {
+            ...opts,
+            noAuth: true,
+          },
+        )
+      ).result;
+    },
   },
   locations: {
     getApartments: async (id) =>
