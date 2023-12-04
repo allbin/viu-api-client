@@ -14,6 +14,9 @@ import type {
   ApiPublicApartment,
   ApiResult,
   ApiGoogleCalendarTokenAuthCodeRequest,
+  ApiBookingTagInstallationRequest,
+  ApiBookingTagResource,
+  ApiBookingConnectorResponse,
 } from '@allbin/viu-types';
 
 interface PublicOperations {
@@ -38,11 +41,21 @@ interface PublicOperations {
     install: (id: string, data: ApiNameTagInstallationRequest) => Promise<void>;
   };
   bookingtags: {
-    getGoogleCalendarUsers: (id: string) => Promise<string[]>;
+    install: (
+      id: string,
+      data: ApiBookingTagInstallationRequest,
+    ) => Promise<void>;
+  };
+  bookingconnectors: {
+    getResources: (
+      id: string,
+      timezone?: string,
+    ) => Promise<ApiBookingTagResource[]>;
   };
   tags: {
     getLocations: (id: string) => Promise<ApiLocation[]>;
     isInstalled: (id: string) => Promise<boolean>;
+    getBookingConnectors: (id: string) => Promise<ApiBookingConnectorResponse>;
   };
   locations: {
     getApartments: (id: string) => Promise<ApiPublicApartment[]>;
@@ -155,12 +168,25 @@ export const publicOperations = (
       ),
   },
   bookingtags: {
-    getGoogleCalendarUsers: async (id) =>
-      await call<undefined, string[]>(
-        'GET',
-        `/public/bookingtags/${id}/google-calendar-users`,
+    install: async (id, data) =>
+      await call<ApiBookingTagInstallationRequest, void>(
+        'PATCH',
+        `/public/bookingtags/${id}/install`,
         {
           ...opts,
+          body: data,
+          noAuth: true,
+        },
+      ),
+  },
+  bookingconnectors: {
+    getResources: async (id, timezone) =>
+      await call<undefined, ApiBookingTagResource[]>(
+        'GET',
+        `/public/booking-connectors/${id}/resources`,
+        {
+          ...opts,
+          params: timezone,
           noAuth: true,
         },
       ),
@@ -170,6 +196,15 @@ export const publicOperations = (
       await call<undefined, ApiLocation[]>(
         'GET',
         `/public/tags/${id}/locations`,
+        {
+          ...opts,
+          noAuth: true,
+        },
+      ),
+    getBookingConnectors: async (id) =>
+      await call<undefined, ApiBookingConnectorResponse>(
+        'GET',
+        `/public/tags/${id}/booking-connectors`,
         {
           ...opts,
           noAuth: true,
