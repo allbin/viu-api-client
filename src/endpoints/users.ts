@@ -4,10 +4,15 @@ import type { ViuApiClientOptions } from '../options';
 import type { ApiUser } from '@allbin/viu-types';
 
 interface UserOperations {
-  list: () => Promise<ApiUser[]>;
+  list: (ids: string[]) => Promise<ApiUser[]>;
 }
 
 export const userOperations = (opts: ViuApiClientOptions): UserOperations => ({
-  list: async () =>
-    await call<undefined, ApiUser[]>('GET', `/users`, { ...opts }),
+  list: async (ids: string[]) =>
+    await call<undefined, ApiUser[]>('GET', `/users`, {
+      ...opts,
+      params: {
+        ids: ids.join(','),
+      },
+    }),
 });
