@@ -16,7 +16,7 @@ import type {
   ApiGoogleCalendarTokenAuthCodeRequest,
   ApiBookingTagInstallationRequest,
   ApiBookingTagResource,
-  ApiBookingConnectorResponse,
+  ApiPublicBookingConnector,
 } from '@allbin/viu-types';
 
 interface PublicOperations {
@@ -55,7 +55,7 @@ interface PublicOperations {
   tags: {
     getLocations: (id: string) => Promise<ApiLocation[]>;
     isInstalled: (id: string) => Promise<boolean>;
-    getBookingConnectors: (id: string) => Promise<ApiBookingConnectorResponse>;
+    getBookingConnectors: (id: string) => Promise<ApiPublicBookingConnector[]>;
   };
   locations: {
     getApartments: (id: string) => Promise<ApiPublicApartment[]>;
@@ -202,7 +202,7 @@ export const publicOperations = (
         },
       ),
     getBookingConnectors: async (id) =>
-      await call<undefined, ApiBookingConnectorResponse>(
+      await call<undefined, ApiPublicBookingConnector[]>(
         'GET',
         `/public/tags/${id}/booking-connectors`,
         {
