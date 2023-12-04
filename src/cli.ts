@@ -62,6 +62,14 @@ void (async () => {
       token: getToken,
     });
 
+    const connectors = await client.public.tags.getBookingConnectors('2222');
+    console.log(connectors);
+    const resources = await client.public.bookingconnectors.getResources(
+      connectors[0].id,
+      'Europe/Stockholm',
+    );
+    console.log(resources);
+
     const tags = await client.tags.list();
     console.log(tags);
     if (!tags || tags.length === 0) {

@@ -13,7 +13,6 @@ import type {
   ApiNameTagInstallationRequest,
   ApiPublicApartment,
   ApiResult,
-  ApiGoogleCalendarTokenAuthCodeRequest,
   ApiBookingTagInstallationRequest,
   ApiBookingTagResource,
   ApiPublicBookingConnector,
@@ -59,9 +58,6 @@ interface PublicOperations {
   };
   locations: {
     getApartments: (id: string) => Promise<ApiPublicApartment[]>;
-  };
-  google_calendar_tokens: {
-    upsert: (data: ApiGoogleCalendarTokenAuthCodeRequest) => Promise<void>;
   };
 }
 
@@ -186,7 +182,7 @@ export const publicOperations = (
         `/public/booking-connectors/${id}/resources`,
         {
           ...opts,
-          params: timezone,
+          params: timezone ? { timezone } : {},
           noAuth: true,
         },
       ),
@@ -230,18 +226,6 @@ export const publicOperations = (
         `/public/locations/${id}/apartments`,
         {
           ...opts,
-          noAuth: true,
-        },
-      ),
-  },
-  google_calendar_tokens: {
-    upsert: async (data) =>
-      await call<ApiGoogleCalendarTokenAuthCodeRequest, void>(
-        'PUT',
-        `/public/google-calendar-tokens`,
-        {
-          ...opts,
-          body: data,
           noAuth: true,
         },
       ),
