@@ -15,7 +15,7 @@ import type {
   ApiResult,
   ApiBookingTagInstallationRequest,
   ApiBookingTagResource,
-  ApiPublicBookingConnector,
+  ApiPublicConnector,
 } from '@allbin/viu-types';
 
 interface PublicOperations {
@@ -54,7 +54,8 @@ interface PublicOperations {
   tags: {
     getLocations: (id: string) => Promise<ApiLocation[]>;
     isInstalled: (id: string) => Promise<boolean>;
-    getBookingConnectors: (id: string) => Promise<ApiPublicBookingConnector[]>;
+    getBookingConnectors: (id: string) => Promise<ApiPublicConnector[]>;
+    scan: (id: string) => Promise<void>;
   };
   locations: {
     getApartments: (id: string) => Promise<ApiPublicApartment[]>;
@@ -198,7 +199,7 @@ export const publicOperations = (
         },
       ),
     getBookingConnectors: async (id) =>
-      await call<undefined, ApiPublicBookingConnector[]>(
+      await call<undefined, ApiPublicConnector[]>(
         'GET',
         `/public/tags/${id}/booking-connectors`,
         {
@@ -217,6 +218,13 @@ export const publicOperations = (
           },
         )
       ).result;
+    },
+    scan: async (id) => {
+      return await call<undefined, void>('GET', `/public/tags/scan`, {
+        ...opts,
+        params: { id },
+        noAuth: true,
+      });
     },
   },
   locations: {
