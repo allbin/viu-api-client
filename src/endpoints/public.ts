@@ -16,6 +16,7 @@ import type {
   ApiBookingTagInstallationRequest,
   ApiBookingTagResource,
   ApiPublicConnector,
+  ApiBookingTagEvent,
 } from '@allbin/viu-types';
 
 interface PublicOperations {
@@ -45,16 +46,20 @@ interface PublicOperations {
       data: ApiBookingTagInstallationRequest,
     ) => Promise<void>;
   };
-  bookingconnectors: {
+  connectors: {
     getResources: (
       id: string,
       timezone?: string,
     ) => Promise<ApiBookingTagResource[]>;
+    getResourceBookings: (
+      connector_id: string,
+      resource_source_id: string,
+    ) => Promise<ApiBookingTagEvent[]>;
   };
   tags: {
     getLocations: (id: string) => Promise<ApiLocation[]>;
     isInstalled: (id: string) => Promise<boolean>;
-    getBookingConnectors: (id: string) => Promise<ApiPublicConnector[]>;
+    getConnectors: (id: string) => Promise<ApiPublicConnector[]>;
     scan: (id: string) => Promise<void>;
   };
   locations: {
@@ -176,14 +181,23 @@ export const publicOperations = (
         },
       ),
   },
-  bookingconnectors: {
+  connectors: {
     getResources: async (id, timezone) =>
       await call<undefined, ApiBookingTagResource[]>(
         'GET',
-        `/public/booking-connectors/${id}/resources`,
+        `/public/connectors/${id}/resources`,
         {
           ...opts,
           params: timezone ? { timezone } : {},
+          noAuth: true,
+        },
+      ),
+    getResourceBookings: async (connector_id, resource_source_id) =>
+      await call<undefined, ApiBookingTagEvent[]>(
+        'GET',
+        `/public/connectors/${connector_id}/resources/${resource_source_id}/bookings`,
+        {
+          ...opts,
           noAuth: true,
         },
       ),
@@ -198,10 +212,10 @@ export const publicOperations = (
           noAuth: true,
         },
       ),
-    getBookingConnectors: async (id) =>
+    getConnectors: async (id) =>
       await call<undefined, ApiPublicConnector[]>(
         'GET',
-        `/public/tags/${id}/booking-connectors`,
+        `/public/tags/${id}/connectors`,
         {
           ...opts,
           noAuth: true,
