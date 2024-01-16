@@ -60,15 +60,22 @@ void (async () => {
     const client = ViuApiClient({
       baseUrl: 'http://localhost:50000',
       token: getToken,
+      apiKey: process.env.API_KEY,
     });
 
-    const connectors = await client.public.tags.getBookingConnectors('2222');
+    const connectors = await client.public.tags.getConnectors('5555-local');
     console.log(connectors);
-    const resources = await client.public.bookingconnectors.getResources(
+    const resources = await client.public.connectors.getResources(
       connectors[0].id,
       'Europe/Stockholm',
     );
     console.log(resources);
+
+    const events = await client.public.connectors.getResourceBookings(
+      '9d8ac9ca-05eb-44f9-aed8-2d3d718fea34',
+      '92',
+    );
+    console.log('events', events);
 
     const tags = await client.tags.list();
     console.log(tags);
