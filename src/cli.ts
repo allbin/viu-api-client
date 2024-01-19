@@ -63,6 +63,11 @@ void (async () => {
       apiKey: process.env.API_KEY,
     });
 
+    const org_connectors = await client.public.organizations.getConnectors(
+      'allbinary',
+    );
+    console.log('org_connectors:', org_connectors);
+
     const connectors = await client.public.tags.getConnectors('5555-local');
     console.log(connectors);
     const resources = await client.public.connectors.getResources(

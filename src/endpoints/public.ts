@@ -23,6 +23,7 @@ interface PublicOperations {
   organizations: {
     get: (id: string) => Promise<ApiOrganization>;
     getLocations: (id: string) => Promise<ApiLocation[]>;
+    getConnectors: (id: string) => Promise<ApiPublicConnector[]>;
   };
   devices: {
     get: (id: string) => Promise<ApiDevice>;
@@ -84,6 +85,15 @@ export const publicOperations = (
       await call<undefined, ApiLocation[]>(
         'GET',
         `/public/organizations/${id}/locations`,
+        {
+          ...opts,
+          noAuth: true,
+        },
+      ),
+    getConnectors: async (id) =>
+      await call<undefined, ApiPublicConnector[]>(
+        'GET',
+        `/public/organizations/${id}/connectors`,
         {
           ...opts,
           noAuth: true,
