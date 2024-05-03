@@ -107,6 +107,7 @@ void (async () => {
 
     const install_tag = await client.public.nametags.install(tags[0].id, {
       location_id: (tags[0] as ApiNameTag).location_id,
+      placement: 'walltag',
       unit: (tags[0] as ApiNameTag).unit,
     });
     console.log('installed tag', install_tag);
