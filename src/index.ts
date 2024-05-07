@@ -6,6 +6,7 @@ import {
   deviceOperations,
   deviceEventOperations,
   embeddedUrlOperations,
+  featureOperations,
   floorOperations,
   locationOperations,
   organizationOperations,
@@ -27,6 +28,7 @@ interface IViuApiClient {
   deviceEvents: ReturnType<typeof deviceEventOperations>;
   embeddedUrls: ReturnType<typeof embeddedUrlOperations>;
   floors: ReturnType<typeof floorOperations>;
+  features: ReturnType<typeof featureOperations>;
   locations: ReturnType<typeof locationOperations>;
   organizations: ReturnType<typeof organizationOperations>;
   profile: ReturnType<typeof profileOperations>;
@@ -44,6 +46,7 @@ const ViuApiClient = (opts: ViuApiClientOptions): IViuApiClient => ({
   devices: deviceOperations(opts),
   deviceEvents: deviceEventOperations(opts),
   embeddedUrls: embeddedUrlOperations(opts),
+  features: featureOperations(opts),
   floors: floorOperations(opts),
   locations: locationOperations(opts),
   organizations: organizationOperations(opts),
