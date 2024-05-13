@@ -17,21 +17,21 @@ export const serviceTagOperations = (
   opts: ViuApiClientOptions,
 ): ServiceTagOperations => ({
   list: async () =>
-    await call<undefined, ApiServiceTag[]>('GET', '/service_tags', opts),
+    await call<undefined, ApiServiceTag[]>('GET', '/service-tags', opts),
   create: async (service_tag) =>
-    await call<ApiServiceTagRequest, ApiServiceTag>('POST', '/service_tags', {
+    await call<ApiServiceTagRequest, ApiServiceTag>('POST', '/service-tags', {
       ...opts,
       body: service_tag,
     }),
   update: async (id, service_tag) =>
     await call<ApiServiceTagRequest, ApiServiceTag>(
       'PUT',
-      `/service_tags/${id}`,
+      `/service-tags/${id}`,
       {
         ...opts,
         body: service_tag,
       },
     ),
   delete: async (id) =>
-    await call<undefined, ApiServiceTag>('DELETE', `/service_tags/${id}`, opts),
+    await call<undefined, ApiServiceTag>('DELETE', `/service-tags/${id}`, opts),
 });
