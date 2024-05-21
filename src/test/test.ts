@@ -30,6 +30,7 @@ const createAndUpdateLocation = async (
     street: 'Street 1',
     zipcode: '12345',
     site_name: 'SiteName',
+    config: {},
   });
 
   const { id, city, zipcode, site_name } = created_location;
@@ -38,6 +39,7 @@ const createAndUpdateLocation = async (
     zipcode,
     site_name,
     street: 'Street 2',
+    config: {},
   });
 
   return updated_location;
@@ -216,6 +218,9 @@ void (async () => {
       service.id,
     );
 
+    if (!feature.properties?.id) {
+      throw new Error('Feature id is missing');
+    }
     await client.features.delete(feature.properties?.id);
     await client.services.delete(service.id);
     await client.serviceTags.delete(service_tag.id);
