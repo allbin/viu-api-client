@@ -1,4 +1,3 @@
-import { ApiNameTag } from '@allbin/viu-types';
 import axios from 'axios';
 import jwt from 'jsonwebtoken';
 import { DateTime } from 'luxon';
@@ -63,25 +62,6 @@ void (async () => {
       apiKey: process.env.API_KEY,
     });
 
-    const org_connectors = await client.public.organizations.getConnectors(
-      'allbinary',
-    );
-    console.log('org_connectors:', org_connectors);
-
-    const connectors = await client.public.tags.getConnectors('5555-local');
-    console.log(connectors);
-    const resources = await client.public.connectors.getResources(
-      connectors[0].id,
-      'Europe/Stockholm',
-    );
-    console.log(resources);
-
-    const events = await client.public.connectors.getResourceBookings(
-      '9d8ac9ca-05eb-44f9-aed8-2d3d718fea34',
-      '92',
-    );
-    console.log('events', events);
-
     const tags = await client.tags.list();
     console.log(tags);
     if (!tags || tags.length === 0) {
@@ -89,46 +69,74 @@ void (async () => {
       process.exit(0);
     }
 
-    const tag_locations = await client.public.tags.getLocations(tags[0].id);
-    console.log(tag_locations);
-    if (!tag_locations || tag_locations.length === 0) {
-      console.log('no existing locations. exiting...');
-      process.exit(0);
-    }
-
-    const apartments = await client.public.locations.getApartments(
-      tag_locations[0].id,
+    const tags_by_location_id = await client.tags.list(
+      '4cffc8d8-8fe9-4e00-9b2c-c303fcde4687',
     );
-    console.log(apartments);
-    if (!apartments || apartments.length === 0) {
-      console.log('no existing apartments. exiting...');
+    console.log(tags_by_location_id);
+    if (!tags || tags.length === 0) {
+      console.log('no existing tags. exiting...');
       process.exit(0);
     }
 
-    const install_tag = await client.public.nametags.install(tags[0].id, {
-      location_id: (tags[0] as ApiNameTag).location_id,
-      placement: 'walltag',
-      unit: (tags[0] as ApiNameTag).unit,
-    });
-    console.log('installed tag', install_tag);
-
-    const devices = await client.devices.list();
-    console.log(devices);
-    if (!devices || devices.length === 0) {
-      console.log('no existing devices. exiting...');
-      process.exit(0);
-    }
-
-    const online_device = devices.find(
-      (d) => d.status.hardware_online === true,
-    );
-    if (!online_device) {
-      console.log('no online devices found. exiting...');
-      process.exit(0);
-    }
-
-    const screenshot = await client.devices.screenshot(online_device.id);
-    console.log(screenshot);
+    // const org_connectors = await client.public.organizations.getConnectors(
+    //   'allbinary',
+    // );
+    // console.log('org_connectors:', org_connectors);
+    //
+    // const connectors = await client.public.tags.getConnectors('5555-local');
+    // console.log(connectors);
+    // const resources = await client.public.connectors.getResources(
+    //   connectors[0].id,
+    //   'Europe/Stockholm',
+    // );
+    // console.log(resources);
+    //
+    // const events = await client.public.connectors.getResourceBookings(
+    //   '9d8ac9ca-05eb-44f9-aed8-2d3d718fea34',
+    //   '92',
+    // );
+    // console.log('events', events);
+    //
+    // const tag_locations = await client.public.tags.getLocations(tags[0].id);
+    // console.log(tag_locations);
+    // if (!tag_locations || tag_locations.length === 0) {
+    //   console.log('no existing locations. exiting...');
+    //   process.exit(0);
+    // }
+    //
+    // const apartments = await client.public.locations.getApartments(
+    //   tag_locations[0].id,
+    // );
+    // console.log(apartments);
+    // if (!apartments || apartments.length === 0) {
+    //   console.log('no existing apartments. exiting...');
+    //   process.exit(0);
+    // }
+    //
+    // const install_tag = await client.public.nametags.install(tags[0].id, {
+    //   location_id: (tags[0] as ApiNameTag).location_id,
+    //   placement: 'walltag',
+    //   unit: (tags[0] as ApiNameTag).unit,
+    // });
+    // console.log('installed tag', install_tag);
+    //
+    // const devices = await client.devices.list();
+    // console.log(devices);
+    // if (!devices || devices.length === 0) {
+    //   console.log('no existing devices. exiting...');
+    //   process.exit(0);
+    // }
+    //
+    // const online_device = devices.find(
+    //   (d) => d.status.hardware_online === true,
+    // );
+    // if (!online_device) {
+    //   console.log('no online devices found. exiting...');
+    //   process.exit(0);
+    // }
+    //
+    // const screenshot = await client.devices.screenshot(online_device.id);
+    // console.log(screenshot);
   } catch (e) {
     console.error(e);
     process.exit(1);
