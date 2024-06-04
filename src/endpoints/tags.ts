@@ -2,11 +2,11 @@ import call from '../call';
 
 import type { ViuApiClientOptions } from '../options';
 
-import type { ApiTag } from '@allbin/viu-types';
+import type { ApiTag, ApiTagBase } from '@allbin/viu-types';
 
 interface TagOperations {
   list: (location_id?: string) => Promise<ApiTag[]>;
-  uninstall: (id: string) => Promise<void>;
+  uninstall: (id: string) => Promise<ApiTagBase>;
 }
 
 export const tagOperations = (opts: ViuApiClientOptions): TagOperations => ({
@@ -17,7 +17,7 @@ export const tagOperations = (opts: ViuApiClientOptions): TagOperations => ({
     });
   },
   uninstall: async (id) => {
-    return await call<undefined, void>('PUT', `/tags/${id}/uninstall`, {
+    return await call<undefined, ApiTagBase>('PUT', `/tags/${id}/uninstall`, {
       ...opts,
     });
   },
