@@ -104,12 +104,12 @@ void (async () => {
     //   process.exit(0);
     // }
     //
-    // const apartments = await client.public.locations.getApartments(
+    // const units = await client.public.locations.getUnits(
     //   tag_locations[0].id,
     // );
-    // console.log(apartments);
-    // if (!apartments || apartments.length === 0) {
-    //   console.log('no existing apartments. exiting...');
+    // console.log(units);
+    // if (!units || units.length === 0) {
+    //   console.log('no existing units. exiting...');
     //   process.exit(0);
     // }
     //
