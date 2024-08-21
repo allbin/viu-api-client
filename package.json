@@ -47,6 +47,6 @@
     "uuid": "^9.0.1"
   },
   "peerDependencies": {
-    "@allbin/viu-types": "0.x"
+    "@allbin/viu-types": ">=0.50.0"
   }
 }
