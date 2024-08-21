@@ -3,7 +3,6 @@ import {
   ApiFloor,
   ApiLocation,
   ApiService,
-  ApiServiceTag,
   ApiUnit,
   ViuApiClient,
 } from '../index';
@@ -66,9 +65,11 @@ const createAndUpdateFloor = async (
 
 const createAndUpdateUnit = async (
   client: Client,
+  location_id: string,
   floor_id: string,
 ): Promise<ApiUnit> => {
   const created_unit = await client.units.create({
+    location_id,
     floor_id,
     object_id: '1234',
     label: 'Lägenhet 1234',
@@ -83,10 +84,10 @@ const createAndUpdateUnit = async (
     tenants: [
       {
         id: uuid.v4(),
-        first_name: 'John',
-        last_name: 'Doe',
-        extras: {
-          type: 'individual',
+        type: 'individual',
+        individual: {
+          first_name: 'John',
+          last_name: 'Doe',
         },
       },
     ],
@@ -95,31 +96,13 @@ const createAndUpdateUnit = async (
   return updated_unit;
 };
 
-const createAndUpdateServiceTag = async (
-  client: Client,
-): Promise<ApiServiceTag> => {
-  const created_service_tag = await client.serviceTags.create({
-    name: `TagName-${uuid.v4()}`,
-  });
-
-  const { id } = created_service_tag;
-
-  const updated_service_tag = await client.serviceTags.update(id, {
-    name: `TagName2-${uuid.v4()}`,
-  });
-
-  return updated_service_tag;
-};
-
 const createAndUpdateService = async (
   client: Client,
   location_id: string,
   floor_id: string,
-  service_tag_id: string,
 ): Promise<ApiService> => {
   const created_service = await client.services.create({
     type: 'massage',
-    tags: [],
     name: 'Service Name',
     description: 'Service Description',
     equipment: ['massage_chair'],
@@ -128,6 +111,7 @@ const createAndUpdateService = async (
         name: 'Massage Chair',
       },
     ],
+    areas: [],
     floor_id,
     location_id,
   });
@@ -136,7 +120,7 @@ const createAndUpdateService = async (
 
   const updated_service = await client.services.update(id, {
     type,
-    tags: [service_tag_id],
+    areas: [],
     name,
     description,
     resources: [
@@ -144,7 +128,7 @@ const createAndUpdateService = async (
         ...resources[0],
         booking_ref: {
           connector_id: uuid.v4(),
-          resource_id: uuid.v4(),
+          source_id: uuid.v4(),
         },
       },
     ],
@@ -199,16 +183,9 @@ void (async () => {
 
     const floor = await createAndUpdateFloor(client, location.id);
 
-    const unit = await createAndUpdateUnit(client, floor.id);
+    const unit = await createAndUpdateUnit(client, location.id, floor.id);
 
-    const service_tag = await createAndUpdateServiceTag(client);
-
-    const service = await createAndUpdateService(
-      client,
-      location.id,
-      floor.id,
-      service_tag.id,
-    );
+    const service = await createAndUpdateService(client, location.id, floor.id);
 
     const feature = await createAndUpdateFeature(
       client,
@@ -223,7 +200,6 @@ void (async () => {
     }
     await client.features.delete(feature.properties?.id);
     await client.services.delete(service.id);
-    await client.serviceTags.delete(service_tag.id);
     await client.units.delete(unit.id);
     await client.floors.delete(floor.id);
     await client.locations.delete(location.id);

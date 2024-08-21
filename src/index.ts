@@ -12,7 +12,6 @@ import {
   organizationOperations,
   profileOperations,
   publicOperations,
-  serviceTagOperations,
   serviceOperations,
   syncOperations,
   tagOperations,
@@ -32,7 +31,6 @@ interface IViuApiClient {
   locations: ReturnType<typeof locationOperations>;
   organizations: ReturnType<typeof organizationOperations>;
   profile: ReturnType<typeof profileOperations>;
-  serviceTags: ReturnType<typeof serviceTagOperations>;
   services: ReturnType<typeof serviceOperations>;
   sync: ReturnType<typeof syncOperations>;
   tags: ReturnType<typeof tagOperations>;
@@ -52,7 +50,6 @@ const ViuApiClient = (opts: ViuApiClientOptions): IViuApiClient => ({
   organizations: organizationOperations(opts),
   profile: profileOperations(opts),
   public: publicOperations(opts),
-  serviceTags: serviceTagOperations(opts),
   services: serviceOperations(opts),
   sync: syncOperations(opts),
   tags: tagOperations(opts),

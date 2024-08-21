@@ -9,7 +9,6 @@ export * from './locations';
 export * from './organizations';
 export * from './profile';
 export * from './public';
-export * from './service_tags';
 export * from './services';
 export * from './sync';
 export * from './tags';

@@ -4,19 +4,20 @@ import type { ViuApiClientOptions } from '../options';
 import type {
   ApiOrganization,
   ApiAnnouncement,
-  ApiApartment,
   ApiAttachment,
   ApiEmbeddedUrl,
   ApiDevice,
   ApiLocation,
   ApiDeviceInstallationRequest,
   ApiNameTagInstallationRequest,
-  ApiPublicApartment,
   ApiResult,
   ApiBookingTagInstallationRequest,
   ApiBookingTagResource,
   ApiPublicConnector,
   ApiBookingTagEvent,
+  ApiFloor,
+  ApiUnit,
+  ApiPublicUnit,
 } from '@allbin/viu-types';
 
 interface PublicOperations {
@@ -30,7 +31,8 @@ interface PublicOperations {
     getConfig: <T>(id: string) => Promise<T>;
     getLocation: (id: string) => Promise<ApiLocation>;
     getAnnouncements: (id: string) => Promise<ApiAnnouncement[]>;
-    getApartments: (id: string) => Promise<ApiApartment[]>;
+    getFloors: (id: string) => Promise<ApiFloor[]>;
+    getUnits: (id: string) => Promise<ApiUnit[]>;
     getAttachments: (id: string) => Promise<ApiAttachment[]>;
     getEmbeddedUrls: (id: string) => Promise<ApiEmbeddedUrl[]>;
     install: (
@@ -64,7 +66,8 @@ interface PublicOperations {
     scan: (id: string) => Promise<void>;
   };
   locations: {
-    getApartments: (id: string) => Promise<ApiPublicApartment[]>;
+    getFloors: (id: string) => Promise<ApiFloor[]>;
+    getUnits: (id: string) => Promise<ApiPublicUnit[]>;
   };
 }
 
@@ -120,15 +123,16 @@ export const publicOperations = (
           noAuth: true,
         },
       ),
-    getApartments: async (id: string) =>
-      await call<undefined, ApiApartment[]>(
-        'GET',
-        `public/devices/${id}/apartments`,
-        {
-          ...opts,
-          noAuth: true,
-        },
-      ),
+    getFloors: async (id: string) =>
+      await call<undefined, ApiFloor[]>('GET', `/public/devices/${id}/floors`, {
+        ...opts,
+        noAuth: true,
+      }),
+    getUnits: async (id: string) =>
+      await call<undefined, ApiUnit[]>('GET', `/public/devices/${id}/units`, {
+        ...opts,
+        noAuth: true,
+      }),
     getAnnouncements: async (id: string) =>
       await call<undefined, ApiAnnouncement[]>(
         'GET',
@@ -252,10 +256,19 @@ export const publicOperations = (
     },
   },
   locations: {
-    getApartments: async (id) =>
-      await call<undefined, ApiPublicApartment[]>(
+    getFloors: async (id) =>
+      await call<undefined, ApiFloor[]>(
         'GET',
-        `/public/locations/${id}/apartments`,
+        `/public/locations/${id}/floors`,
+        {
+          ...opts,
+          noAuth: true,
+        },
+      ),
+    getUnits: async (id) =>
+      await call<undefined, ApiPublicUnit[]>(
+        'GET',
+        `/public/locations/${id}/units`,
         {
           ...opts,
           noAuth: true,
