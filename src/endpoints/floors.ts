@@ -12,7 +12,7 @@ interface FloorOperations {
   list: (location_id?: string) => Promise<ApiFloor[]>;
   create: (floor: ApiFloorRequest) => Promise<ApiFloor>;
   update: (id: string, floor: ApiFloorUpdateRequest) => Promise<ApiFloor>;
-  delete: (id: string) => Promise<void>;
+  delete: (id: string) => Promise<ApiFloor>;
 }
 
 export const floorOperations = (
@@ -34,5 +34,5 @@ export const floorOperations = (
       body: floor,
     }),
   delete: async (id) =>
-    await call<undefined, void>('DELETE', `/floors/${id}`, opts),
+    await call<undefined, ApiFloor>('DELETE', `/floors/${id}`, opts),
 });
