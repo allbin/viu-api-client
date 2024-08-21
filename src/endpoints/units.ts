@@ -8,17 +8,20 @@ import type {
 } from '@allbin/viu-types';
 
 interface UnitOperations {
-  list: (floor_id?: string) => Promise<ApiUnit[]>;
+  list: (params: {
+    floor_id?: string;
+    location_id?: string;
+  }) => Promise<ApiUnit[]>;
   create: (unit: ApiUnitRequest) => Promise<ApiUnit>;
   update: (id: string, unit: ApiUnitUpdateRequest) => Promise<ApiUnit>;
   delete: (id: string) => Promise<ApiUnit>;
 }
 
 export const unitOperations = (opts: ViuApiClientOptions): UnitOperations => ({
-  list: async (floor_id) =>
+  list: async ({ floor_id, location_id }) =>
     await call<undefined, ApiUnit[]>('GET', '/units', {
       ...opts,
-      params: floor_id ? { floor_id } : {},
+      params: { location_id, floor_id },
     }),
   create: async (unit) =>
     await call<ApiUnitRequest, ApiUnit>('POST', '/units', {
