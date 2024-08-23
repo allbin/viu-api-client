@@ -18,6 +18,7 @@ import type {
   ApiFloor,
   ApiUnit,
   ApiPublicUnit,
+  ApiArea,
 } from '@allbin/viu-types';
 
 interface PublicOperations {
@@ -30,6 +31,7 @@ interface PublicOperations {
     get: (id: string) => Promise<ApiDevice>;
     getConfig: <T>(id: string) => Promise<T>;
     getLocation: (id: string) => Promise<ApiLocation>;
+    getAreas: (id: string) => Promise<ApiArea[]>;
     getAnnouncements: (id: string) => Promise<ApiAnnouncement[]>;
     getFloors: (id: string) => Promise<ApiFloor[]>;
     getUnits: (id: string) => Promise<ApiUnit[]>;
@@ -123,6 +125,11 @@ export const publicOperations = (
           noAuth: true,
         },
       ),
+    getAreas: async (id: string) =>
+      await call<undefined, ApiArea[]>('GET', `/public/devices/${id}/areas`, {
+        ...opts,
+        noAuth: true,
+      }),
     getFloors: async (id: string) =>
       await call<undefined, ApiFloor[]>('GET', `/public/devices/${id}/floors`, {
         ...opts,
