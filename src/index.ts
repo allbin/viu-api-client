@@ -2,6 +2,7 @@ import { ViuApiClientOptions } from './options';
 
 import {
   announcementOperations,
+  areaOperations,
   attachmentOperations,
   deviceOperations,
   deviceEventOperations,
@@ -22,6 +23,7 @@ import {
 interface IViuApiClient {
   public: ReturnType<typeof publicOperations>;
   announcements: ReturnType<typeof announcementOperations>;
+  areas: ReturnType<typeof areaOperations>;
   attachments: ReturnType<typeof attachmentOperations>;
   devices: ReturnType<typeof deviceOperations>;
   deviceEvents: ReturnType<typeof deviceEventOperations>;
@@ -40,6 +42,7 @@ interface IViuApiClient {
 
 const ViuApiClient = (opts: ViuApiClientOptions): IViuApiClient => ({
   announcements: announcementOperations(opts),
+  areas: areaOperations(opts),
   attachments: attachmentOperations(opts),
   devices: deviceOperations(opts),
   deviceEvents: deviceEventOperations(opts),

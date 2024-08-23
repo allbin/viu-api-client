@@ -1,4 +1,5 @@
 export * from './announcements';
+export * from './areas';
 export * from './attachments';
 export * from './devices';
 export * from './device_events';

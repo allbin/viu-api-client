@@ -5,6 +5,7 @@ import type { GeoJSON } from '@allbin/viu-types';
 
 interface FeatureOperations {
   list: () => Promise<GeoJSON.FeatureCollection>;
+  listByArea: (area_id: string) => Promise<GeoJSON.FeatureCollection>;
   listByLocation: (location_id: string) => Promise<GeoJSON.FeatureCollection>;
   listByFloor: (floor_id: string) => Promise<GeoJSON.FeatureCollection>;
   create: (feature: GeoJSON.Feature) => Promise<GeoJSON.Feature>;
@@ -18,6 +19,13 @@ export const featureOperations = (
   list: async () =>
     await call<undefined, GeoJSON.FeatureCollection>('GET', '/features', {
       ...opts,
+    }),
+  listByArea: async (area_id) =>
+    await call<undefined, GeoJSON.FeatureCollection>('GET', `/features`, {
+      ...opts,
+      params: {
+        area_id,
+      },
     }),
   listByLocation: async (location_id) =>
     await call<undefined, GeoJSON.FeatureCollection>('GET', `/features`, {
