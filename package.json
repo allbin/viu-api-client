@@ -1,6 +1,6 @@
 {
   "name": "@allbin/viu-api-client",
-  "version": "0.47.1",
+  "version": "0.48.0",
   "description": "API Client for Viu API",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",

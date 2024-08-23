@@ -6,7 +6,7 @@ import type { ApiService, ApiServiceRequest } from '@allbin/viu-types';
 
 interface ServiceOperations {
   list: () => Promise<ApiService[]>;
-  listByTag: (tag_id: string) => Promise<ApiService[]>;
+  listByArea: (area_id: string) => Promise<ApiService[]>;
   listByFloor: (floor_id: string) => Promise<ApiService[]>;
   listByLocation: (location_id: string) => Promise<ApiService[]>;
   create: (service: ApiServiceRequest) => Promise<ApiService>;
@@ -22,10 +22,10 @@ export const serviceOperations = (
 ): ServiceOperations => ({
   list: async () =>
     await call<undefined, ApiService[]>('GET', '/services', opts),
-  listByTag: async (tag_id) =>
+  listByArea: async (area_id) =>
     await call<undefined, ApiService[]>('GET', `/services`, {
       ...opts,
-      params: { tag_id },
+      params: { area_id },
     }),
   listByFloor: async (floor_id) =>
     await call<undefined, ApiService[]>('GET', `/services`, {
