@@ -1,6 +1,6 @@
 {
   "name": "@allbin/viu-api-client",
-  "version": "0.48.1",
+  "version": "0.48.3",
   "description": "API Client for Viu API",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
@@ -47,6 +47,6 @@
     "uuid": "^9.0.1"
   },
   "peerDependencies": {
-    "@allbin/viu-types": ">=0.52.1"
+    "@allbin/viu-types": ">=0.52.2"
   }
 }
