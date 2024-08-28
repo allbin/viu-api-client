@@ -6,6 +6,7 @@ export * from './device_events';
 export * from './embedded_urls';
 export * from './features';
 export * from './floors';
+export * from './images';
 export * from './locations';
 export * from './organizations';
 export * from './profile';

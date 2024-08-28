@@ -9,6 +9,7 @@ import {
   embeddedUrlOperations,
   featureOperations,
   floorOperations,
+  imageOperations,
   locationOperations,
   organizationOperations,
   profileOperations,
@@ -30,6 +31,7 @@ interface IViuApiClient {
   embeddedUrls: ReturnType<typeof embeddedUrlOperations>;
   floors: ReturnType<typeof floorOperations>;
   features: ReturnType<typeof featureOperations>;
+  images: ReturnType<typeof imageOperations>;
   locations: ReturnType<typeof locationOperations>;
   organizations: ReturnType<typeof organizationOperations>;
   profile: ReturnType<typeof profileOperations>;
@@ -49,6 +51,7 @@ const ViuApiClient = (opts: ViuApiClientOptions): IViuApiClient => ({
   embeddedUrls: embeddedUrlOperations(opts),
   features: featureOperations(opts),
   floors: floorOperations(opts),
+  images: imageOperations(opts),
   locations: locationOperations(opts),
   organizations: organizationOperations(opts),
   profile: profileOperations(opts),
