@@ -6,7 +6,7 @@ import type {
   ApiDeviceDBRequest,
   ApiDeviceRequest,
   ApiDeviceLicenseExpiryRequest,
-  ApiDevicePreExchangeRequest
+  ApiDevicePreExchangeRequest,
 } from '@allbin/viu-types';
 
 interface DeviceOperations {
@@ -19,8 +19,13 @@ interface DeviceOperations {
   uninstall: (id: string) => Promise<ApiDevice>;
   factoryReset: (id: string) => Promise<void>;
   screenshot: (id: string) => Promise<ArrayBuffer>;
-  updateLicenseExpiry: (device: ApiDeviceLicenseExpiryRequest[]) => Promise<ApiDevice[]>;
-  updatePreExchange: (id: string, pre_exchange: ApiDevicePreExchangeRequest) => Promise<ApiDevice>;
+  updateLicenseExpiry: (
+    device: ApiDeviceLicenseExpiryRequest[],
+  ) => Promise<ApiDevice[]>;
+  updatePreExchange: (
+    id: string,
+    pre_exchange: ApiDevicePreExchangeRequest,
+  ) => Promise<ApiDevice>;
 }
 
 export const deviceOperations = (
@@ -64,13 +69,21 @@ export const deviceOperations = (
       responseType: 'arraybuffer',
     }),
   updateLicenseExpiry: async (device) =>
-    await call<ApiDeviceLicenseExpiryRequest[], ApiDevice[]>('PATCH', `/devices/license-expiry`, {
-      ...opts,
-      body: device
-    }),
+    await call<ApiDeviceLicenseExpiryRequest[], ApiDevice[]>(
+      'PATCH',
+      `/devices/license-expiry`,
+      {
+        ...opts,
+        body: device,
+      },
+    ),
   updatePreExchange: async (id, pre_exchange) =>
-    await call<ApiDevicePreExchangeRequest, ApiDevice>('PATCH', `/devices/${id}/pre-exchange`, {
-      ...opts,
-      body: pre_exchange
-    })
+    await call<ApiDevicePreExchangeRequest, ApiDevice>(
+      'PATCH',
+      `/devices/${id}/pre-exchange`,
+      {
+        ...opts,
+        body: pre_exchange,
+      },
+    ),
 });
