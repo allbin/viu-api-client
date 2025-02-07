@@ -5,8 +5,9 @@ import type {
   ApiDevice,
   ApiDeviceDBRequest,
   ApiDeviceRequest,
-  ApiDeviceLicenseExpiryRequest,
+  ApiDeviceUpdateLicenseExpiryRequest,
   ApiDevicePreExchangeRequest,
+  ApiDeviceLicenseExpiryPetitionRequest,
 } from '@allbin/viu-types';
 
 interface DeviceOperations {
@@ -20,7 +21,10 @@ interface DeviceOperations {
   factoryReset: (id: string) => Promise<void>;
   screenshot: (id: string) => Promise<ArrayBuffer>;
   updateLicenseExpiry: (
-    device: ApiDeviceLicenseExpiryRequest[],
+    device: ApiDeviceUpdateLicenseExpiryRequest[],
+  ) => Promise<ApiDevice[]>;
+  updateLicenseExpiryPetition: (
+    device: ApiDeviceLicenseExpiryPetitionRequest[],
   ) => Promise<ApiDevice[]>;
   updatePreExchange: (
     id: string,
@@ -69,9 +73,18 @@ export const deviceOperations = (
       responseType: 'arraybuffer',
     }),
   updateLicenseExpiry: async (device) =>
-    await call<ApiDeviceLicenseExpiryRequest[], ApiDevice[]>(
+    await call<ApiDeviceUpdateLicenseExpiryRequest[], ApiDevice[]>(
       'PATCH',
       `/devices/license-expiry`,
+      {
+        ...opts,
+        body: device,
+      },
+    ),
+  updateLicenseExpiryPetition: async (device) =>
+    await call<ApiDeviceLicenseExpiryPetitionRequest[], ApiDevice[]>(
+      'PATCH',
+      `/devices/license-request`,
       {
         ...opts,
         body: device,
