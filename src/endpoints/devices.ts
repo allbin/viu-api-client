@@ -84,7 +84,7 @@ export const deviceOperations = (
   updateLicenseExpiryPetition: async (device) =>
     await call<ApiDeviceLicenseExpiryPetitionRequest[], ApiDevice[]>(
       'PATCH',
-      `/devices/license-request`,
+      `/devices/license-expiry-petition`,
       {
         ...opts,
         body: device,
