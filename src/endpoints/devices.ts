@@ -8,6 +8,7 @@ import type {
   ApiDeviceUpdateLicenseExpiryRequest,
   ApiDevicePreExchangeRequest,
   ApiDeviceLicenseExpiryPetitionRequest,
+  ApiDeviceWarrantyExpiryRequest,
 } from '@allbin/viu-types';
 
 interface DeviceOperations {
@@ -25,6 +26,15 @@ interface DeviceOperations {
   ) => Promise<ApiDevice[]>;
   updateLicenseExpiryPetition: (
     device: ApiDeviceLicenseExpiryPetitionRequest[],
+  ) => Promise<ApiDevice[]>;
+  approveLicenseExpiryPetition: (
+    device: ApiDeviceUpdateLicenseExpiryRequest[],
+  ) => Promise<ApiDevice[]>;
+  rejectLicenseExpiryPetition: (
+    device: ApiDeviceLicenseExpiryPetitionRequest[],
+  ) => Promise<ApiDevice[]>;
+  updateWarrantyExpiry: (
+    device: ApiDeviceWarrantyExpiryRequest[],
   ) => Promise<ApiDevice[]>;
   updatePreExchange: (
     id: string,
@@ -85,6 +95,33 @@ export const deviceOperations = (
     await call<ApiDeviceLicenseExpiryPetitionRequest[], ApiDevice[]>(
       'PATCH',
       `/devices/license-expiry-petition`,
+      {
+        ...opts,
+        body: device,
+      },
+    ),
+  approveLicenseExpiryPetition: async (device) =>
+    await call<ApiDeviceUpdateLicenseExpiryRequest[], ApiDevice[]>(
+      'PATCH',
+      `/devices/license-expiry-petition/approve`,
+      {
+        ...opts,
+        body: device,
+      },
+    ),
+  rejectLicenseExpiryPetition: async (device) =>
+    await call<ApiDeviceLicenseExpiryPetitionRequest[], ApiDevice[]>(
+      'PATCH',
+      `/devices/license-expiry-petition/reject`,
+      {
+        ...opts,
+        body: device,
+      },
+    ),
+  updateWarrantyExpiry: async (device) =>
+    await call<ApiDeviceWarrantyExpiryRequest[], ApiDevice[]>(
+      'PATCH',
+      `/devices/warranty-expiry`,
       {
         ...opts,
         body: device,
