@@ -37,9 +37,8 @@ interface DeviceOperations {
     device: ApiDeviceWarrantyExpiryRequest[],
   ) => Promise<ApiDevice[]>;
   updatePreExchange: (
-    id: string,
-    pre_exchange: ApiDevicePreExchangeRequest,
-  ) => Promise<ApiDevice>;
+    device: ApiDevicePreExchangeRequest[],
+  ) => Promise<ApiDevice[]>;
 }
 
 export const deviceOperations = (
@@ -127,13 +126,13 @@ export const deviceOperations = (
         body: device,
       },
     ),
-  updatePreExchange: async (id, pre_exchange) =>
-    await call<ApiDevicePreExchangeRequest, ApiDevice>(
+  updatePreExchange: async (device) =>
+    await call<ApiDevicePreExchangeRequest[], ApiDevice[]>(
       'PATCH',
-      `/devices/${id}/pre-exchange`,
+      `/devices/pre-exchange`,
       {
         ...opts,
-        body: pre_exchange,
+        body: device,
       },
     ),
 });
