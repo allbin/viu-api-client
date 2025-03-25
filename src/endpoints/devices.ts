@@ -34,7 +34,7 @@ interface DeviceOperations {
   ) => Promise<ApiDevice[]>;
   updatePreExchange: (
     device: ApiDevicePreExchangeRequest[],
-  ) => Promise<ApiDevice>;
+  ) => Promise<ApiDevice[]>;
 }
 
 export const deviceOperations = (
@@ -123,7 +123,7 @@ export const deviceOperations = (
       },
     ),
   updatePreExchange: async (device) =>
-    await call<ApiDevicePreExchangeRequest[], ApiDevice>(
+    await call<ApiDevicePreExchangeRequest[], ApiDevice[]>(
       'PATCH',
       `/devices/pre-exchange`,
       {
