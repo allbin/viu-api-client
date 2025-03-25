@@ -27,18 +27,13 @@ interface DeviceOperations {
   updateLicenseExpiryPetition: (
     device: ApiDeviceLicenseExpiryPetitionRequest[],
   ) => Promise<ApiDevice[]>;
-  approveLicenseExpiryPetition: (
-    device: ApiDeviceUpdateLicenseExpiryRequest[],
-  ) => Promise<ApiDevice[]>;
-  rejectLicenseExpiryPetition: (
-    device: ApiDeviceLicenseExpiryPetitionRequest[],
-  ) => Promise<ApiDevice[]>;
+  approveLicenseExpiryPetition: (device: string[]) => Promise<ApiDevice[]>;
+  rejectLicenseExpiryPetition: (device: string[]) => Promise<ApiDevice[]>;
   updateWarrantyExpiry: (
     device: ApiDeviceWarrantyExpiryRequest[],
   ) => Promise<ApiDevice[]>;
   updatePreExchange: (
-    id: string,
-    pre_exchange: ApiDevicePreExchangeRequest,
+    device: ApiDevicePreExchangeRequest[],
   ) => Promise<ApiDevice>;
 }
 
@@ -101,7 +96,7 @@ export const deviceOperations = (
       },
     ),
   approveLicenseExpiryPetition: async (device) =>
-    await call<ApiDeviceUpdateLicenseExpiryRequest[], ApiDevice[]>(
+    await call<string[], ApiDevice[]>(
       'PATCH',
       `/devices/license-expiry-petition/approve`,
       {
@@ -110,7 +105,7 @@ export const deviceOperations = (
       },
     ),
   rejectLicenseExpiryPetition: async (device) =>
-    await call<ApiDeviceLicenseExpiryPetitionRequest[], ApiDevice[]>(
+    await call<string[], ApiDevice[]>(
       'PATCH',
       `/devices/license-expiry-petition/reject`,
       {
@@ -127,13 +122,13 @@ export const deviceOperations = (
         body: device,
       },
     ),
-  updatePreExchange: async (id, pre_exchange) =>
-    await call<ApiDevicePreExchangeRequest, ApiDevice>(
+  updatePreExchange: async (device) =>
+    await call<ApiDevicePreExchangeRequest[], ApiDevice>(
       'PATCH',
-      `/devices/${id}/pre-exchange`,
+      `/devices/pre-exchange`,
       {
         ...opts,
-        body: pre_exchange,
+        body: device,
       },
     ),
 });

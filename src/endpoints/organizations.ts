@@ -9,6 +9,9 @@ interface OrganizationOperations {
     id: string,
     config: ApiOrganization['config'],
   ) => Promise<ApiOrganization>;
+  updateLicenseNotificationSubscribers: (
+    license_notification_subscribers: string[],
+  ) => Promise<ApiOrganization>;
 }
 
 export const organizationOperations = (
@@ -25,6 +28,17 @@ export const organizationOperations = (
       {
         ...opts,
         body: config,
+      },
+    ),
+  updateLicenseNotificationSubscribers: async (
+    license_notification_subscribers,
+  ) =>
+    await call<string[], ApiOrganization>(
+      'PATCH',
+      `/organizations/license-notification-subscribers`,
+      {
+        ...opts,
+        body: license_notification_subscribers,
       },
     ),
 });
