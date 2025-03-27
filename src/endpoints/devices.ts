@@ -27,12 +27,8 @@ interface DeviceOperations {
   updateLicenseExpiryPetition: (
     device: ApiDeviceLicenseExpiryPetitionRequest[],
   ) => Promise<ApiDevice[]>;
-  approveLicenseExpiryPetition: (
-    device: ApiDeviceUpdateLicenseExpiryRequest[],
-  ) => Promise<ApiDevice[]>;
-  rejectLicenseExpiryPetition: (
-    device: ApiDeviceLicenseExpiryPetitionRequest[],
-  ) => Promise<ApiDevice[]>;
+  approveLicenseExpiryPetition: (device: string[]) => Promise<ApiDevice[]>;
+  rejectLicenseExpiryPetition: (device: string[]) => Promise<ApiDevice[]>;
   updateWarrantyExpiry: (
     device: ApiDeviceWarrantyExpiryRequest[],
   ) => Promise<ApiDevice[]>;
@@ -100,7 +96,7 @@ export const deviceOperations = (
       },
     ),
   approveLicenseExpiryPetition: async (device) =>
-    await call<ApiDeviceUpdateLicenseExpiryRequest[], ApiDevice[]>(
+    await call<string[], ApiDevice[]>(
       'PATCH',
       `/devices/license-expiry-petition/approve`,
       {
@@ -109,7 +105,7 @@ export const deviceOperations = (
       },
     ),
   rejectLicenseExpiryPetition: async (device) =>
-    await call<ApiDeviceLicenseExpiryPetitionRequest[], ApiDevice[]>(
+    await call<string[], ApiDevice[]>(
       'PATCH',
       `/devices/license-expiry-petition/reject`,
       {
