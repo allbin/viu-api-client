@@ -3,18 +3,18 @@ import call from '../call';
 import type { ViuApiClientOptions } from '../options';
 import type {
   ApiDevice,
-  ApiDeviceDBRequest,
   ApiDeviceRequest,
   ApiDeviceUpdateLicenseExpiryRequest,
   ApiDevicePreExchangeRequest,
   ApiDeviceLicenseExpiryPetitionRequest,
   ApiDeviceWarrantyExpiryRequest,
+  ApiDeviceCreationRequest,
 } from '@allbin/viu-types';
 
 interface DeviceOperations {
   list: (location_id?: string) => Promise<ApiDevice[]>;
   get: (id: string) => Promise<ApiDevice>;
-  create: (device: ApiDeviceDBRequest) => Promise<ApiDevice>;
+  create: (device: ApiDeviceCreationRequest) => Promise<ApiDevice>;
   patch: (id: string, device: ApiDeviceRequest) => Promise<ApiDevice>;
   delete: (id: string) => Promise<ApiDevice>;
   reboot: (id: string) => Promise<void>;
@@ -49,7 +49,7 @@ export const deviceOperations = (
   get: async (id) =>
     await call<undefined, ApiDevice>('GET', `/devices/${id}`, { ...opts }),
   create: async (device) =>
-    await call<ApiDeviceDBRequest, ApiDevice>('POST', `/devices`, {
+    await call<ApiDeviceCreationRequest, ApiDevice>('POST', `/devices`, {
       ...opts,
       body: device,
     }),
