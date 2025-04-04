@@ -36,21 +36,21 @@ export const organizationOperations = (
   updateLicenseNotificationSubscribers: async (
     license_notification_subscribers,
   ) =>
-    await call<{ license_notification_subscribers: string[] }, ApiOrganization>(
+    await call<string[], ApiOrganization>(
       'PATCH',
       `/organizations/license-notification-subscribers`,
       {
         ...opts,
-        body: { license_notification_subscribers },
+        body: license_notification_subscribers,
       },
     ),
   updateAlertNotificationSubscribers: async (alert_notification_subscribers) =>
-    await call<{ alert_notification_subscribers: string[] }, ApiOrganization>(
+    await call<string[], ApiOrganization>(
       'PATCH',
       `/organizations/alert-notification-subscribers`,
       {
         ...opts,
-        body: { alert_notification_subscribers },
+        body: alert_notification_subscribers,
       },
     ),
 });
