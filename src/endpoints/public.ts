@@ -21,6 +21,12 @@ import type {
   ApiArea,
   ApiService,
   ApiFeatureCollection,
+  ApiIloqResource,
+  ApiIloqBookingSchema,
+  ApiIloqResourceBookingsResponseData,
+  ApiIloqUserBookingsResponseData,
+  ApiIloqBooking,
+  ApiIloqCreateBookingRequest
 } from '@allbin/viu-types';
 
 interface PublicOperations {
@@ -45,6 +51,12 @@ interface PublicOperations {
       id: string,
       data: ApiDeviceInstallationRequest,
     ) => Promise<ApiDevice>;
+    getIloqResources: (id: string) => Promise<ApiIloqResource[]>;
+    getIloqResourceSchema: (deviceId: string, resourceId: string) => Promise<ApiIloqBookingSchema>;
+    getIloqResourceBookings: (deviceId: string, resourceId: string) => Promise<ApiIloqResourceBookingsResponseData>;
+    getIloqUserBookings: (deviceId: string, keyNfcId: string) => Promise<ApiIloqUserBookingsResponseData>;
+    createIloqBooking: (deviceId: string, data: ApiIloqCreateBookingRequest) => Promise<ApiIloqBooking>;
+    deleteIloqBooking: (deviceId: string, bookingId: string, keyNfcId: string) => Promise<void>;
   };
   nametags: {
     install: (id: string, data: ApiNameTagInstallationRequest) => Promise<void>;
@@ -184,20 +196,49 @@ export const publicOperations = (
       await call<undefined, ApiEmbeddedUrl[]>(
         'GET',
         `/public/devices/${id}/embedded-urls`,
-        {
-          ...opts,
-          noAuth: true,
-        },
+        { ...opts, noAuth: true },
       ),
     install: async (id, data) =>
       await call<ApiDeviceInstallationRequest, ApiDevice>(
         'PUT',
         `/public/devices/${id}/install`,
-        {
-          ...opts,
-          body: data,
-          noAuth: true,
-        },
+        { ...opts, body: data, noAuth: true },
+      ),
+    getIloqResources: async (id: string) =>
+      await call<undefined, ApiIloqResource[]>(
+        'GET',
+        `/public/devices/${id}/resources`,
+        { ...opts },
+      ),
+    getIloqResourceSchema: async (deviceId: string, resourceId: string) =>
+      await call<undefined, ApiIloqBookingSchema>(
+        'GET',
+        `/public/devices/${deviceId}/resources/${resourceId}/schema`,
+        { ...opts },
+      ),
+    getIloqResourceBookings: async (deviceId: string, resourceId: string) =>
+      await call<undefined, ApiIloqResourceBookingsResponseData>(
+        'GET',
+        `/public/devices/${deviceId}/resources/${resourceId}/bookings`,
+        { ...opts },
+      ),
+    getIloqUserBookings: async (deviceId: string, keyNfcId: string) =>
+      await call<undefined, ApiIloqUserBookingsResponseData>(
+        'GET',
+        `/public/devices/${deviceId}/bookings/user`,
+        { ...opts, params: { keyNfcId } },
+      ),
+    createIloqBooking: async (deviceId: string, data: ApiIloqCreateBookingRequest) =>
+      await call<ApiIloqCreateBookingRequest, ApiIloqBooking>(
+        'POST',
+        `/public/devices/${deviceId}/bookings`,
+        { ...opts, body: data },
+      ),
+    deleteIloqBooking: async (deviceId: string, bookingId: string, keyNfcId: string) =>
+      await call<undefined, void>(
+        'DELETE',
+        `/public/devices/${deviceId}/bookings/${bookingId}`,
+        { ...opts, params: { keyNfcId } },
       ),
   },
   nametags: {
