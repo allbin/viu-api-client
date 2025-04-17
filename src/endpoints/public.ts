@@ -26,7 +26,7 @@ import type {
   ApiIloqResourceBookingsResponseData,
   ApiIloqUserBookingsResponseData,
   ApiIloqBooking,
-  ApiIloqCreateBookingRequest
+  ApiIloqCreateBookingRequest,
 } from '@allbin/viu-types';
 
 interface PublicOperations {
@@ -52,11 +52,27 @@ interface PublicOperations {
       data: ApiDeviceInstallationRequest,
     ) => Promise<ApiDevice>;
     getIloqResources: (id: string) => Promise<ApiIloqResource[]>;
-    getIloqResourceSchema: (deviceId: string, resourceId: string) => Promise<ApiIloqBookingSchema>;
-    getIloqResourceBookings: (deviceId: string, resourceId: string) => Promise<ApiIloqResourceBookingsResponseData>;
-    getIloqUserBookings: (deviceId: string, keyNfcId: string) => Promise<ApiIloqUserBookingsResponseData>;
-    createIloqBooking: (deviceId: string, data: ApiIloqCreateBookingRequest) => Promise<ApiIloqBooking>;
-    deleteIloqBooking: (deviceId: string, bookingId: string, keyNfcId: string) => Promise<void>;
+    getIloqResourceSchema: (
+      deviceId: string,
+      resourceId: string,
+    ) => Promise<ApiIloqBookingSchema>;
+    getIloqResourceBookings: (
+      deviceId: string,
+      resourceId: string,
+    ) => Promise<ApiIloqResourceBookingsResponseData>;
+    getIloqUserBookings: (
+      deviceId: string,
+      keyNfcId: string,
+    ) => Promise<ApiIloqUserBookingsResponseData>;
+    createIloqBooking: (
+      deviceId: string,
+      data: ApiIloqCreateBookingRequest,
+    ) => Promise<ApiIloqBooking>;
+    deleteIloqBooking: (
+      deviceId: string,
+      bookingId: string,
+      keyNfcId: string,
+    ) => Promise<void>;
   };
   nametags: {
     install: (id: string, data: ApiNameTagInstallationRequest) => Promise<void>;
@@ -228,13 +244,20 @@ export const publicOperations = (
         `/public/devices/${deviceId}/bookings/user`,
         { ...opts, params: { keyNfcId } },
       ),
-    createIloqBooking: async (deviceId: string, data: ApiIloqCreateBookingRequest) =>
+    createIloqBooking: async (
+      deviceId: string,
+      data: ApiIloqCreateBookingRequest,
+    ) =>
       await call<ApiIloqCreateBookingRequest, ApiIloqBooking>(
         'POST',
         `/public/devices/${deviceId}/bookings`,
         { ...opts, body: data },
       ),
-    deleteIloqBooking: async (deviceId: string, bookingId: string, keyNfcId: string) =>
+    deleteIloqBooking: async (
+      deviceId: string,
+      bookingId: string,
+      keyNfcId: string,
+    ) =>
       await call<undefined, void>(
         'DELETE',
         `/public/devices/${deviceId}/bookings/${bookingId}`,
