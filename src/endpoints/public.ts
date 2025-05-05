@@ -53,25 +53,25 @@ interface PublicOperations {
     ) => Promise<ApiDevice>;
     getIloqResources: (id: string) => Promise<ApiIloqResource[]>;
     getIloqResourceSchema: (
-      deviceId: string,
-      resourceId: string,
+      device_id: string,
+      resource_id: string,
     ) => Promise<ApiIloqBookingSchema>;
     getIloqResourceBookings: (
-      deviceId: string,
-      resourceId: string,
+      device_id: string,
+      resource_id: string,
     ) => Promise<ApiIloqResourceBookingsResponseData>;
     getIloqUserBookings: (
-      deviceId: string,
-      keyNfcId: string,
+      device_id: string,
+      key_nfc_id: string,
     ) => Promise<ApiIloqUserBookingsResponseData>;
     createIloqBooking: (
-      deviceId: string,
+      device_id: string,
       data: ApiIloqCreateBookingRequest,
     ) => Promise<ApiIloqBooking>;
     deleteIloqBooking: (
-      deviceId: string,
+      device_id: string,
       bookingId: string,
-      keyNfcId: string,
+      key_nfc_id: string,
     ) => Promise<void>;
   };
   nametags: {
@@ -226,42 +226,42 @@ export const publicOperations = (
         `/public/devices/${id}/resources`,
         { ...opts },
       ),
-    getIloqResourceSchema: async (deviceId: string, resourceId: string) =>
+    getIloqResourceSchema: async (device_id: string, resource_id: string) =>
       await call<undefined, ApiIloqBookingSchema>(
         'GET',
-        `/public/devices/${deviceId}/resources/${resourceId}/schema`,
+        `/public/devices/${device_id}/resources/${resource_id}/schema`,
         { ...opts },
       ),
-    getIloqResourceBookings: async (deviceId: string, resourceId: string) =>
+    getIloqResourceBookings: async (device_id: string, resource_id: string) =>
       await call<undefined, ApiIloqResourceBookingsResponseData>(
         'GET',
-        `/public/devices/${deviceId}/resources/${resourceId}/bookings`,
+        `/public/devices/${device_id}/resources/${resource_id}/bookings`,
         { ...opts },
       ),
-    getIloqUserBookings: async (deviceId: string, keyNfcId: string) =>
+    getIloqUserBookings: async (device_id: string, key_nfc_id: string) =>
       await call<undefined, ApiIloqUserBookingsResponseData>(
         'GET',
-        `/public/devices/${deviceId}/bookings/user`,
-        { ...opts, params: { keyNfcId } },
+        `/public/devices/${device_id}/bookings/user`,
+        { ...opts, params: { key_nfc_id } },
       ),
     createIloqBooking: async (
-      deviceId: string,
+      device_id: string,
       data: ApiIloqCreateBookingRequest,
     ) =>
       await call<ApiIloqCreateBookingRequest, ApiIloqBooking>(
         'POST',
-        `/public/devices/${deviceId}/bookings`,
+        `/public/devices/${device_id}/bookings`,
         { ...opts, body: data },
       ),
     deleteIloqBooking: async (
-      deviceId: string,
+      device_id: string,
       bookingId: string,
-      keyNfcId: string,
+      key_nfc_id: string,
     ) =>
       await call<undefined, void>(
         'DELETE',
-        `/public/devices/${deviceId}/bookings/${bookingId}`,
-        { ...opts, params: { keyNfcId } },
+        `/public/devices/${device_id}/bookings/${bookingId}`,
+        { ...opts, params: { key_nfc_id } },
       ),
   },
   nametags: {
