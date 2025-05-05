@@ -224,25 +224,25 @@ export const publicOperations = (
       await call<undefined, ApiIloqResource[]>(
         'GET',
         `/public/devices/${id}/resources`,
-        { ...opts },
+        { ...opts, noAuth: true },
       ),
     getIloqResourceSchema: async (device_id: string, resource_id: string) =>
       await call<undefined, ApiIloqBookingSchema>(
         'GET',
         `/public/devices/${device_id}/resources/${resource_id}/schema`,
-        { ...opts },
+        { ...opts, noAuth: true },
       ),
     getIloqResourceBookings: async (device_id: string, resource_id: string) =>
       await call<undefined, ApiIloqResourceBookingsResponseData>(
         'GET',
         `/public/devices/${device_id}/resources/${resource_id}/bookings`,
-        { ...opts },
+        { ...opts, noAuth: true },
       ),
     getIloqUserBookings: async (device_id: string, key_nfc_id: string) =>
       await call<undefined, ApiIloqUserBookingsResponseData>(
         'GET',
         `/public/devices/${device_id}/bookings/user`,
-        { ...opts, params: { key_nfc_id } },
+        { ...opts, params: { key_nfc_id }, noAuth: true },
       ),
     createIloqBooking: async (
       device_id: string,
@@ -251,7 +251,7 @@ export const publicOperations = (
       await call<ApiIloqCreateBookingRequest, ApiIloqBooking>(
         'POST',
         `/public/devices/${device_id}/bookings`,
-        { ...opts, body: data },
+        { ...opts, body: data, noAuth: true },
       ),
     deleteIloqBooking: async (
       device_id: string,
@@ -261,7 +261,7 @@ export const publicOperations = (
       await call<undefined, void>(
         'DELETE',
         `/public/devices/${device_id}/bookings/${bookingId}`,
-        { ...opts, params: { key_nfc_id } },
+        { ...opts, params: { key_nfc_id }, noAuth: true },
       ),
   },
   nametags: {
